@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { adminApi } from '../../api/admin.api';
 import { formatDate } from '../../utils/format.utils';
+import WeddingDivider from '../../components/wedding-theme/WeddingDivider.jsx';
 
 export default function PendingVerification() {
   const [profiles, setProfiles] = useState([]);
@@ -15,13 +16,14 @@ export default function PendingVerification() {
 
   return (
     <div className="page-enter">
-      <div style={{ marginBottom:'var(--space-6)' }}>
+      <div style={{ marginBottom:'var(--space-4)' }}>
         <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)' }}>
           Pending Verification
         </h1>
-        <p style={{ color:'var(--color-text-muted)', marginTop:'var(--space-2)' }}>
+        <p style={{ color:'var(--color-text-muted)', marginTop:'var(--space-1)' }}>
           {profiles.length} profile{profiles.length !== 1 ? 's' : ''} awaiting Government ID review
         </p>
+        <WeddingDivider size="sm" style={{ margin: 'var(--space-3) 0' }} />
       </div>
 
       {profiles.length === 0 ? (

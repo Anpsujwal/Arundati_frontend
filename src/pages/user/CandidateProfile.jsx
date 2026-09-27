@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { matchesApi } from '../../api/matches.api';
-import { interestsApi } from '../../api/matches.api';
-import { calcAge, formatHeight, photoUrl, formatDate, getErrorMessage } from '../../utils/format.utils';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { matchesApi, interestsApi } from '../../api/matches.api';
+import { calcAge, formatHeight, photoUrl, getErrorMessage } from '../../utils/format.utils';
 import { ArrowLeft, MapPin, Heart, BookOpen, GraduationCap, Users, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
+import WeddingDivider from '../../components/wedding-theme/WeddingDivider.jsx';
+import FloralDecoration from '../../components/wedding-theme/FloralDecoration.jsx';
 
 function Section({ title, children }) {
   return (
@@ -26,12 +27,12 @@ function InfoRow({ label, value }) {
 }
 
 export default function CandidateProfile() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [sending, setSending] = useState(false);
+  const { id }       = useParams();
+  const navigate     = useNavigate();
+  const [data,       setData]           = useState(null);
+  const [loading,    setLoading]        = useState(true);
+  const [error,      setError]          = useState('');
+  const [sending,    setSending]        = useState(false);
   const [interestStatus, setInterestStatus] = useState(null);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function CandidateProfile() {
     </div>
   );
 
-  const age = calcAge(data.date_of_birth);
+  const age          = calcAge(data.date_of_birth);
   const primaryPhoto = data.photos?.find((p) => p.is_primary);
 
   return (
@@ -79,16 +80,20 @@ export default function CandidateProfile() {
         <ArrowLeft size={16} /> Back to Matches
       </button>
 
-      {/* Hero card */}
-      <div className="card" style={{ marginBottom:'var(--space-6)', overflow:'hidden' }}>
-        <div style={{ display:'flex', gap:'var(--space-8)', padding:'var(--space-6)', flexWrap:'wrap' }}>
+      {/* Hero profile card */}
+      <div className="card card-premium" style={{ marginBottom:'var(--space-6)', overflow:'hidden', position:'relative' }}>
+        {/* Gold top stripe */}
+        <div style={{ height:'3px', background:'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))' }} />
+
+        <div style={{ display:'flex', gap:'var(--space-8)', padding:'var(--space-7)', flexWrap:'wrap' }}>
           {/* Avatar */}
           <div style={{ flexShrink:0 }}>
             <div style={{
-              width:'140px', height:'140px', borderRadius:'var(--radius-xl)',
-              overflow:'hidden', border:'3px solid var(--color-border)',
+              width:'150px', height:'150px', borderRadius:'var(--radius-xl)',
+              overflow:'hidden', border:'3px solid rgba(196,147,42,0.40)',
               background:'var(--color-surface-2)',
               display:'flex', alignItems:'center', justifyContent:'center',
+              boxShadow:'var(--shadow-gold)',
             }}>
               {primaryPhoto ? (
                 <img src={photoUrl(primaryPhoto.filename)} alt={data.first_name}
@@ -109,57 +114,65 @@ export default function CandidateProfile() {
             </div>
 
             <div style={{ display:'flex', flexWrap:'wrap', gap:'var(--space-4)', color:'var(--color-text-muted)', fontSize:'var(--text-sm)', marginBottom:'var(--space-4)' }}>
-              {age && <span>🎂 {age} years</span>}
+              {age           && <span>🎂 {age} years</span>}
               {data.height_cm && <span>📏 {formatHeight(data.height_cm)}</span>}
-              {data.city && <span><MapPin size={13} style={{ display:'inline', verticalAlign:'middle' }} /> {data.city}</span>}
+              {data.city     && <span><MapPin size={13} style={{ display:'inline', verticalAlign:'middle' }} /> {data.city}</span>}
               {data.marital_status && <span>💍 {data.marital_status}</span>}
             </div>
 
-            <div style={{ display:'flex', gap:'var(--space-2)', flexWrap:'wrap' }}>
-              {data.gotra && <span className="badge badge-gold">Gotra: {data.gotra}</span>}
+            <div style={{ display:'flex', gap:'var(--space-2)', flexWrap:'wrap', marginBottom:'var(--space-5)' }}>
+              {data.gotra    && <span className="badge badge-gold">Gotra: {data.gotra}</span>}
               {data.sub_sect && <span className="badge badge-primary">{data.sub_sect}</span>}
               {data.dietary_habit && <span className="badge" style={{ background:'var(--color-success-bg)', color:'var(--color-success)' }}>🌿 {data.dietary_habit}</span>}
             </div>
-          </div>
 
-          {/* Interest button */}
-          <div style={{ display:'flex', alignItems:'flex-start', flexShrink:0 }}>
-            {interestStatus === 'Pending' ? (
-              <div className="badge badge-pending" style={{ padding:'var(--space-3) var(--space-4)', fontSize:'var(--text-sm)' }}>
-                ⏳ Interest Sent
-              </div>
-            ) : interestStatus === 'Accepted' ? (
-              <div className="badge badge-approved" style={{ padding:'var(--space-3) var(--space-4)', fontSize:'var(--text-sm)' }}>
-                ✓ Interest Accepted
-              </div>
-            ) : (
-              <button className="btn btn-primary btn-lg" onClick={handleSendInterest} disabled={sending}>
-                <Heart size={18} />
-                {sending ? 'Sending…' : 'Express Interest'}
-              </button>
-            )}
+            {/* Action buttons */}
+            <div style={{ display:'flex', gap:'var(--space-3)', alignItems:'center', flexWrap:'wrap' }}>
+              {interestStatus === 'Pending' ? (
+                <div className="badge badge-pending" style={{ padding:'var(--space-3) var(--space-4)', fontSize:'var(--text-sm)' }}>
+                  ⏳ Interest Sent
+                </div>
+              ) : interestStatus === 'Accepted' ? (
+                <div className="badge badge-approved" style={{ padding:'var(--space-3) var(--space-4)', fontSize:'var(--text-sm)' }}>
+                  ✓ Interest Accepted
+                </div>
+              ) : (
+                <button className="btn btn-primary btn-lg" onClick={handleSendInterest} disabled={sending}>
+                  <Heart size={18} />
+                  {sending ? 'Sending…' : 'Express Interest'}
+                </button>
+              )}
+
+              {/* Compatibility link */}
+              <Link to={`/matches/${data.profile_id}/compatibility`} className="btn btn-outline btn-lg">
+                🔮 View Compatibility
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
+      <WeddingDivider style={{ marginBottom:'var(--space-6)' }} />
+
+      {/* Details columns */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-6)' }}>
         {/* Left column */}
         <div>
           <Section title="🔱 Lineage & Heritage">
-            <InfoRow label="Sub-Sect" value={data.sub_sect} />
-            <InfoRow label="Gotra" value={data.gotra} />
-            <InfoRow label="Pravara" value={data.pravara} />
-            <InfoRow label="Maternal Gotra" value={data.maternal_gotra} />
+            <InfoRow label="Sub-Sect"          value={data.sub_sect} />
+            <InfoRow label="Gotra"             value={data.gotra} />
+            <InfoRow label="Pravara"           value={data.pravara} />
+            <InfoRow label="Maternal Gotra"    value={data.maternal_gotra} />
             <InfoRow label="Maternal Inti Peru" value={data.maternal_inti_peru} />
-            <InfoRow label="Veda" value={data.veda} />
-            <InfoRow label="Sect / Shakha" value={data.shakha} />
-            <InfoRow label="Native Place" value={data.native_place} />
+            <InfoRow label="Veda"              value={data.veda} />
+            <InfoRow label="Sect / Shakha"     value={data.shakha} />
+            <InfoRow label="Native Place"      value={data.native_place} />
           </Section>
 
           <Section title="👨‍💼 Education & Career">
-            <InfoRow label="Education" value={data.education} />
-            <InfoRow label="Profession" value={data.profession} />
-            <InfoRow label="Employer" value={data.employer} />
+            <InfoRow label="Education"   value={data.education} />
+            <InfoRow label="Profession"  value={data.profession} />
+            <InfoRow label="Employer"    value={data.employer} />
             <InfoRow label="Annual Income" value={data.annual_income || 'Not disclosed'} />
           </Section>
         </div>
@@ -167,33 +180,24 @@ export default function CandidateProfile() {
         {/* Right column */}
         <div>
           <Section title="👨‍👩‍👦 Family">
-            <InfoRow label="Father" value={data.family?.father_name} />
+            <InfoRow label="Father"              value={data.family?.father_name} />
             <InfoRow label="Father's Occupation" value={data.family?.father_occupation} />
-            <InfoRow label="Mother" value={data.family?.mother_name} />
-            <InfoRow label="Siblings" value={data.family?.sibling_count != null ? String(data.family.sibling_count) : null} />
-            {/* Elder references — phones stripped by backend for public view */}
-            <InfoRow label="Elder Reference 1" value={data.family?.elder_ref_1_name} />
-            <InfoRow label="Elder Reference 2" value={data.family?.elder_ref_2_name} />
-            <InfoRow label="Elder Reference 3" value={data.family?.elder_ref_3_name} />
-
-            {/* Private phone notice */}
-            <div style={{
-              marginTop:'var(--space-3)',
-              display:'flex', alignItems:'center', gap:'var(--space-2)',
-              color:'var(--color-text-light)', fontSize:'var(--text-xs)',
-            }}>
+            <InfoRow label="Mother"              value={data.family?.mother_name} />
+            <InfoRow label="Siblings"            value={data.family?.sibling_count != null ? String(data.family.sibling_count) : null} />
+            <InfoRow label="Elder Reference 1"   value={data.family?.elder_ref_1_name} />
+            <InfoRow label="Elder Reference 2"   value={data.family?.elder_ref_2_name} />
+            <InfoRow label="Elder Reference 3"   value={data.family?.elder_ref_3_name} />
+            <div style={{ marginTop:'var(--space-3)', display:'flex', alignItems:'center', gap:'var(--space-2)', color:'var(--color-text-light)', fontSize:'var(--text-xs)' }}>
               <Lock size={12} /> Contact details shared after mutual interest acceptance
             </div>
           </Section>
 
-          {/* Photos grid */}
           {data.photos && data.photos.length > 0 && (
             <Section title="📸 Photos">
               <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'var(--space-2)' }}>
                 {data.photos.map((p) => (
-                  <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden' }}>
-                    <img src={photoUrl(p.filename)} alt="Profile"
-                      style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                  <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--color-border)' }}>
+                    <img src={photoUrl(p.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                   </div>
                 ))}
               </div>

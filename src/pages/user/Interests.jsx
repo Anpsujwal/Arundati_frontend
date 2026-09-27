@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { interestsApi } from '../../api/matches.api';
 import { photoUrl, formatDate, getErrorMessage } from '../../utils/format.utils';
 import toast from 'react-hot-toast';
+import WeddingDivider from '../../components/wedding-theme/WeddingDivider.jsx';
 
 function InterestCard({ item, type, onRespond }) {
   const other = type === 'sent' ? { name: item.first_name, surname: item.surname } : { name: item.first_name, surname: item.surname };
@@ -11,8 +12,9 @@ function InterestCard({ item, type, onRespond }) {
   const statusColors = { Pending:'badge-pending', Accepted:'badge-approved', Declined:'badge-rejected' };
 
   return (
-    <div className="card" style={{ display:'flex', alignItems:'center', gap:'var(--space-4)', padding:'var(--space-4)' }}>
-      <div style={{ width:56, height:56, borderRadius:'50%', overflow:'hidden', flexShrink:0, background:'var(--color-surface-2)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+    <div className="card card-premium" style={{ display:'flex', alignItems:'center', gap:'var(--space-4)', padding:'var(--space-4)', position:'relative', overflow:'hidden' }}>
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))', opacity:0.5 }} />
+      <div style={{ width:56, height:56, borderRadius:'50%', overflow:'hidden', flexShrink:0, background:'var(--color-surface-2)', display:'flex', alignItems:'center', justifyContent:'center', border:'2px solid rgba(196,147,42,0.30)' }}>
         {photo ? <img src={photo} alt={item.first_name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
           : <span style={{ fontSize:'24px' }}>👤</span>}
       </div>
@@ -66,9 +68,11 @@ export default function Interests() {
 
   return (
     <div className="page-enter">
-      <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)', marginBottom:'var(--space-6)' }}>
+      <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)', marginBottom:'var(--space-4)' }}>
         Interests
       </h1>
+
+      <WeddingDivider style={{ marginBottom:'var(--space-5)' }} />
 
       {/* Tabs */}
       <div style={{ display:'flex', gap:'var(--space-2)', marginBottom:'var(--space-6)', borderBottom:'2px solid var(--color-border)', paddingBottom:'var(--space-1)' }}>

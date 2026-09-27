@@ -17,6 +17,7 @@ export default function WizardProgress({ currentStep }) {
       borderBottom: '1px solid var(--color-border)',
       padding: 'var(--space-4) 0',
       marginBottom: 'var(--space-8)',
+      boxShadow: '0 2px 10px rgba(139,26,72,0.04)',
     }}>
       <div className="container">
         <div style={{
@@ -34,32 +35,47 @@ export default function WizardProgress({ currentStep }) {
               <div key={step.num} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-1)' }}>
                   <div style={{
-                    width: '36px', height: '36px',
+                    width: '38px', height: '38px',
                     borderRadius: '50%',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 'var(--text-sm)',
                     fontWeight: 600,
-                    background: done ? 'var(--color-success)' : active ? 'var(--color-primary)' : 'var(--color-surface-2)',
-                    color: done || active ? 'white' : 'var(--color-text-muted)',
-                    border: active ? '2px solid var(--color-primary)' : done ? '2px solid var(--color-success)' : '2px solid var(--color-border)',
+                    background: done 
+                      ? 'linear-gradient(135deg, #2D6A3F, #1F4E2D)' 
+                      : active 
+                      ? 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' 
+                      : 'var(--color-surface-2)',
+                    color: done || active ? '#FFF8EE' : 'var(--color-text-muted)',
+                    border: active 
+                      ? '2px solid var(--color-gold)' 
+                      : done 
+                      ? '2px solid #52B788' 
+                      : '2px solid var(--color-border)',
                     transition: 'all var(--transition-base)',
-                    boxShadow: active ? 'var(--shadow-glow)' : 'none',
+                    boxShadow: active 
+                      ? '0 0 0 3px rgba(196,147,42,0.25), var(--shadow-md)' 
+                      : done 
+                      ? '0 2px 6px rgba(45,106,63,0.2)' 
+                      : 'none',
                   }}>
                     {done ? <CheckCircle size={18} /> : step.num}
                   </div>
                   <span style={{
                     fontSize: '11px',
-                    fontWeight: active ? 600 : 400,
-                    color: active ? 'var(--color-primary)' : done ? 'var(--color-success)' : 'var(--color-text-light)',
+                    fontWeight: active ? 700 : 500,
+                    color: active ? 'var(--color-primary)' : done ? '#2D6A3F' : 'var(--color-text-light)',
                     whiteSpace: 'nowrap',
+                    letterSpacing: active ? '0.3px' : 'normal',
                   }}>
                     {step.label}
                   </span>
                 </div>
                 {idx < STEPS.length - 1 && (
                   <div style={{
-                    width: '48px', height: '2px',
-                    background: done ? 'var(--color-success)' : 'var(--color-border)',
+                    width: '44px', height: '2px',
+                    background: done 
+                      ? 'linear-gradient(90deg, #2D6A3F, var(--color-gold))' 
+                      : 'var(--color-border)',
                     margin: '0 var(--space-1)',
                     marginBottom: 'var(--space-5)',
                     transition: 'background var(--transition-base)',

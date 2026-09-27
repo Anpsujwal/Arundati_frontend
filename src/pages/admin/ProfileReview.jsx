@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminApi } from '../../api/admin.api';
 import { calcAge, formatDate, formatHeight, getErrorMessage, photoUrl } from '../../utils/format.utils';
-import { ArrowLeft, CheckCircle, XCircle, FileText, Image } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, FileText, Image, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 function Section({ title, children }) {
@@ -41,6 +41,7 @@ export default function ProfileReview() {
   const [acting, setActing] = useState(false);
   const [reason, setReason] = useState('');
   const [showRejectForm, setShowRejectForm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     adminApi.profile(id)
@@ -59,6 +60,18 @@ export default function ProfileReview() {
     } catch (e) {
       toast.error(getErrorMessage(e));
     } finally { setActing(false); }
+  };
+
+  const handleDelete = async () => {
+    setActing(true);
+    try {
+      await adminApi.deleteUser(data.user_id);
+      toast.success('User permanently deleted.');
+      navigate('/admin/pending');
+    } catch (e) {
+      toast.error(getErrorMessage(e));
+      setActing(false);
+    }
   };
 
   if (loading) return <div style={{ textAlign:'center', padding:'var(--space-20)' }}><div className="spinner spinner-lg" style={{ margin:'0 auto' }} /></div>;
@@ -104,6 +117,18 @@ export default function ProfileReview() {
             </button>
           </div>
         )}
+
+        {/* Delete button — always visible for any user status */}
+        <button
+          id="btn-delete-user"
+          className="btn btn-outline btn-lg"
+          style={{ color:'#dc2626', borderColor:'#dc2626', marginLeft:'auto' }}
+          onClick={() => setShowDeleteConfirm(true)}
+          disabled={acting}
+          title="Permanently delete this user from the database"
+        >
+          <Trash2 size={18} /> Delete User
+        </button>
       </div>
 
       {/* Reject reason form */}
@@ -118,6 +143,47 @@ export default function ProfileReview() {
               Confirm Rejection
             </button>
             <button className="btn btn-ghost" onClick={() => setShowRejectForm(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Delete Confirmation Card ──────────────────────────────────── */}
+      {showDeleteConfirm && (
+        <div
+          id="delete-confirm-card"
+          className="card card-padded"
+          style={{
+            marginBottom:'var(--space-6)',
+            border:'2px solid #dc2626',
+            background:'#fff5f5',
+          }}
+        >
+          <div style={{ display:'flex', alignItems:'center', gap:'var(--space-3)', marginBottom:'var(--space-3)' }}>
+            <div style={{ width:40, height:40, borderRadius:'50%', background:'#fee2e2', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+              <Trash2 size={20} color="#dc2626" />
+            </div>
+            <div>
+              <h3 style={{ color:'#dc2626', margin:0, fontSize:'var(--text-lg)' }}>Permanently Delete User?</h3>
+              <p style={{ margin:'var(--space-1) 0 0', fontSize:'var(--text-sm)', color:'#6b7280' }}>
+                This will irreversibly remove <strong>{data.first_name} {data.surname}</strong>'s account,
+                profile, documents, kundali, photos, and all match history from the database.
+                <strong> This action cannot be undone.</strong>
+              </p>
+            </div>
+          </div>
+          <div style={{ display:'flex', gap:'var(--space-3)', marginTop:'var(--space-2)' }}>
+            <button
+              id="btn-confirm-delete"
+              className="btn btn-lg"
+              style={{ background:'#dc2626', color:'white', border:'none', fontWeight:600 }}
+              onClick={handleDelete}
+              disabled={acting}
+            >
+              {acting ? 'Deleting…' : '🗑 Yes, Delete Permanently'}
+            </button>
+            <button className="btn btn-ghost btn-lg" onClick={() => setShowDeleteConfirm(false)} disabled={acting}>
+              Cancel
+            </button>
           </div>
         </div>
       )}

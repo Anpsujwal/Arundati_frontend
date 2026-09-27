@@ -1,49 +1,69 @@
 /* ============================================================
-   ARUNDHATI — Global CSS Design System
-   Warm, elegant, trustworthy matrimonial aesthetic
-   Primary: Deep Maroon (#8B1A4A) + Gold (#C4932A)
+   ARUNDHATI — Global CSS Design System v2
+   Traditional Indian Wedding Aesthetic — Premium Edition
+   
+   Palette:
+     Primary  : Deep Maroon-Wine  (#7B1D3A) + Soft Rose (#A02259)
+     Gold     : Turmeric Gold (#C4932A) + Marigold (#F5A623)
+     Green    : Mango Leaf (#2D6A3F)
+     BG       : Warm Ivory (#FDF8F0) + Cream (#FFF9F0)
+     Text     : Rich Warm Brown (#1A0F00)
    ============================================================ */
 
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Google Fonts — Cormorant Garamond for headings (elegant serif),
+   Inter for UI (modern readable sans-serif) */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 :root {
-  /* Colors */
-  --color-primary:        #8B1A4A;
-  --color-primary-light:  #B5265F;
-  --color-primary-dark:   #6B1239;
-  --color-primary-faint:  #FDF0F5;
+  /* ── Colors ─────────────────────────────────────────────── */
 
-  --color-gold:           #C4932A;
-  --color-gold-light:     #E0B84A;
-  --color-gold-faint:     #FDF8EE;
+  /* Primary — Deep Maroon / Wine (NOT bright red) */
+  --color-primary:        #7B1D3A;   /* Deep wine-maroon */
+  --color-primary-light:  #A02259;   /* Medium rose-maroon */
+  --color-primary-dark:   #4A0E22;   /* Very deep wine */
+  --color-primary-faint:  #FDF0F4;   /* Barely-there blush */
 
-  --color-bg:             #FAF8F5;
-  --color-surface:        #FFFFFF;
-  --color-surface-2:      #F5F0EB;
-  --color-surface-3:      #EDE8E0;
+  /* Gold — Warm turmeric, NOT garish yellow */
+  --color-gold:           #C4932A;   /* Turmeric gold */
+  --color-gold-light:     #F5A623;   /* Bright marigold */
+  --color-gold-deep:      #8B6914;   /* Dark antique gold */
+  --color-gold-faint:     #FFFBEB;   /* Honey cream */
 
-  --color-text:           #1A1208;
-  --color-text-muted:     #6B5C48;
-  --color-text-light:     #9C8B78;
+  /* Mango leaf green — used sparingly for leaf decorations */
+  --color-leaf:           #2D6A3F;
+  --color-leaf-light:     #3A8A52;
+
+  /* Backgrounds — Warm Ivory palette, NOT stark white */
+  --color-bg:             #FDF8F0;   /* Warm ivory (main bg) */
+  --color-surface:        #FFFFFF;   /* White surface for cards */
+  --color-surface-2:      #FFF9F0;   /* Lightest cream */
+  --color-surface-3:      #FFF0DC;   /* Warm peach-cream */
+
+  /* Text */
+  --color-text:           #1A0F00;   /* Rich warm near-black */
+  --color-text-muted:     #6B4C35;   /* Warm medium brown */
+  --color-text-light:     #9B7A60;   /* Light warm sienna */
   --color-text-inverse:   #FFFFFF;
 
-  --color-border:         #E8E0D4;
+  /* Borders */
+  --color-border:         #EDD9B8;   /* Warm wheat */
+  --color-border-strong:  #C4932A;   /* Gold border for emphasis */
   --color-border-focus:   #C4932A;
 
+  /* Semantic */
   --color-success:        #2E7D32;
   --color-success-bg:     #E8F5E9;
-  --color-warning:        #E65100;
+  --color-warning:        #B84500;
   --color-warning-bg:     #FFF3E0;
   --color-error:          #C62828;
   --color-error-bg:       #FFEBEE;
   --color-info:           #1565C0;
   --color-info-bg:        #E3F2FD;
 
-  /* Typography */
-  --font-heading:   'Playfair Display', Georgia, serif;
-  --font-body:      'Inter', system-ui, sans-serif;
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-heading: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 
   /* Type Scale */
   --text-xs:    0.75rem;
@@ -56,7 +76,7 @@
   --text-4xl:   2.25rem;
   --text-5xl:   3rem;
 
-  /* Spacing (8px grid) */
+  /* ── Spacing (8px grid) ─────────────────────────────────── */
   --space-1:  0.25rem;
   --space-2:  0.5rem;
   --space-3:  0.75rem;
@@ -66,33 +86,36 @@
   --space-8:  2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
+  --space-14: 3.5rem;
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
 
-  /* Border Radius */
-  --radius-sm:  0.375rem;
-  --radius-md:  0.625rem;
-  --radius-lg:  1rem;
-  --radius-xl:  1.5rem;
+  /* ── Border Radius ──────────────────────────────────────── */
+  --radius-sm:   0.375rem;
+  --radius-md:   0.625rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-2xl:  2rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm:  0 1px 3px rgba(26,18,8,0.06), 0 1px 2px rgba(26,18,8,0.04);
-  --shadow-md:  0 4px 12px rgba(26,18,8,0.08), 0 2px 4px rgba(26,18,8,0.04);
-  --shadow-lg:  0 10px 30px rgba(26,18,8,0.10), 0 4px 8px rgba(26,18,8,0.05);
-  --shadow-xl:  0 20px 50px rgba(26,18,8,0.12), 0 8px 16px rgba(26,18,8,0.06);
-  --shadow-glow: 0 0 0 3px rgba(196,147,42,0.25);
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 3px rgba(74,14,34,0.06), 0 1px 2px rgba(74,14,34,0.04);
+  --shadow-md:   0 4px 12px rgba(74,14,34,0.10), 0 2px 4px rgba(74,14,34,0.05);
+  --shadow-lg:   0 8px 24px rgba(74,14,34,0.12), 0 4px 8px rgba(74,14,34,0.06);
+  --shadow-xl:   0 16px 48px rgba(74,14,34,0.14), 0 6px 12px rgba(74,14,34,0.07);
+  --shadow-glow: 0 0 0 3px rgba(196,147,42,0.28);
+  --shadow-gold: 0 4px 20px rgba(196,147,42,0.25);
 
-  /* Transitions */
-  --transition-fast:   150ms ease;
-  --transition-base:   250ms ease;
-  --transition-slow:   400ms ease;
+  /* ── Transitions ────────────────────────────────────────── */
+  --transition-fast:  150ms ease;
+  --transition-base:  260ms ease;
+  --transition-slow:  400ms ease;
 
-  /* Layout */
-  --max-width:       1280px;
-  --sidebar-width:   260px;
-  --navbar-height:   68px;
+  /* ── Layout ─────────────────────────────────────────────── */
+  --max-width:      1280px;
+  --sidebar-width:  260px;
+  --navbar-height:  72px;
 }
 
 /* ── Reset & Base ───────────────────────────────────────────── */
@@ -115,6 +138,10 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   min-height: 100vh;
+  /* Subtle warm paper texture via gradient */
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(196,147,42,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 100%, rgba(123,29,58,0.03) 0%, transparent 50%);
 }
 
 #root {
@@ -147,10 +174,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 var(--space-6);
 }
 
-.text-center { text-align: center; }
-.text-muted  { color: var(--color-text-muted); }
+.text-center  { text-align: center; }
+.text-muted   { color: var(--color-text-muted); }
 .text-primary { color: var(--color-primary); }
-.text-gold   { color: var(--color-gold); }
+.text-gold    { color: var(--color-gold); }
 
 /* ── Button System ──────────────────────────────────────────── */
 .btn {
@@ -170,30 +197,37 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   text-decoration: none;
   outline: none;
+  letter-spacing: 0.2px;
 }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
 
 .btn-primary {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
   color: var(--color-text-inverse);
   border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(74,14,34,0.25);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--color-primary-light);
-  border-color: var(--color-primary-light);
+  background: linear-gradient(135deg, var(--color-primary-light), #BE3A6E);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 16px rgba(74,14,34,0.30);
 }
 
 .btn-gold {
-  background: var(--color-gold);
-  color: var(--color-text-inverse);
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  color: #3D2000;
   border-color: var(--color-gold);
+  font-weight: 600;
+  box-shadow: var(--shadow-gold);
 }
 .btn-gold:hover:not(:disabled) {
-  background: var(--color-gold-light);
+  background: linear-gradient(135deg, var(--color-gold-light), #FFB830);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 6px 24px rgba(196,147,42,0.40);
 }
 
 .btn-outline {
@@ -203,6 +237,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-outline:hover:not(:disabled) {
   background: var(--color-primary-faint);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -260,7 +295,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B5C48' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B4C35' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right var(--space-3) center;
   padding-right: var(--space-10);
@@ -293,6 +328,16 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-lg);
 }
 
+/* Premium card variant with subtle gold border */
+.card-premium {
+  border-color: rgba(196,147,42,0.30);
+  box-shadow: var(--shadow-sm), 0 0 0 1px rgba(196,147,42,0.08);
+}
+.card-premium:hover {
+  border-color: rgba(196,147,42,0.55);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(196,147,42,0.15);
+}
+
 /* ── Badge System ───────────────────────────────────────────── */
 .badge {
   display: inline-flex;
@@ -309,8 +354,8 @@ h1, h2, h3, h4, h5, h6 {
 .badge-pending   { background: var(--color-warning-bg); color: var(--color-warning); }
 .badge-rejected  { background: var(--color-error-bg);   color: var(--color-error); }
 .badge-suspended { background: var(--color-surface-3);  color: var(--color-text-muted); }
-.badge-gold      { background: var(--color-gold-faint);  color: var(--color-gold); }
-.badge-primary   { background: var(--color-primary-faint); color: var(--color-primary); }
+.badge-gold      { background: var(--color-gold-faint);  color: var(--color-gold-deep); border: 1px solid rgba(196,147,42,0.25); }
+.badge-primary   { background: var(--color-primary-faint); color: var(--color-primary); border: 1px solid rgba(123,29,58,0.15); }
 
 /* ── Divider ────────────────────────────────────────────────── */
 .divider {
@@ -363,13 +408,25 @@ h1, h2, h3, h4, h5, h6 {
 .section-title {
   font-family: var(--font-heading);
   font-size: var(--text-xl);
+  font-weight: 600;
   color: var(--color-primary);
-  border-bottom: 2px solid var(--color-gold-faint);
   padding-bottom: var(--space-3);
   margin-bottom: var(--space-5);
+  position: relative;
+}
+/* Gold underline ornament */
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+  border-radius: 2px;
 }
 
-/* ── Alert boxes ─────────────────────────────────────────────── */
+/* ── Alert Boxes ─────────────────────────────────────────────── */
 .alert {
   padding: var(--space-4);
   border-radius: var(--radius-md);
@@ -380,28 +437,180 @@ h1, h2, h3, h4, h5, h6 {
 }
 .alert-info    { background: var(--color-info-bg);    color: var(--color-info);    border: 1px solid rgba(21,101,192,0.2); }
 .alert-success { background: var(--color-success-bg); color: var(--color-success); border: 1px solid rgba(46,125,50,0.2); }
-.alert-warning { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid rgba(230,81,0,0.2); }
+.alert-warning { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid rgba(184,69,0,0.2); }
 .alert-error   { background: var(--color-error-bg);   color: var(--color-error);   border: 1px solid rgba(198,40,40,0.2); }
 
 /* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-text-light); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-deep); }
 
-/* ── Page transitions ────────────────────────────────────────── */
+/* ── Page Transitions ────────────────────────────────────────── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .page-enter {
-  animation: fadeInUp 0.35s ease forwards;
+  animation: fadeInUp 0.38s ease forwards;
+}
+
+/* ── Wedding Decoration Animations ──────────────────────────── */
+@keyframes leafSway {
+  0%, 100% { transform: rotate(0deg); }
+  33%       { transform: rotate(1.5deg); }
+  66%       { transform: rotate(-1.5deg); }
+}
+
+@keyframes petalFloat {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 0.7; }
+  50%  { transform: translateY(-6px) rotate(8deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg);   opacity: 0.7; }
+}
+
+@keyframes goldPulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.85; }
+}
+
+@keyframes heroOmPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.88; filter: drop-shadow(0 0 20px rgba(196,147,42,0.4)); }
+  50%       { transform: scale(1.07); opacity: 1.00; filter: drop-shadow(0 0 32px rgba(196,147,42,0.65)); }
+}
+
+/* Toran leaves sway on supported browsers */
+.toran-wrap svg {
+  animation: leafSway 4s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .page-enter { animation: none; opacity: 1; transform: none; }
+  .toran-wrap svg { animation: none; }
 }
 
 /* ── Responsive Helpers ──────────────────────────────────────── */
 @media (max-width: 768px) {
   .hide-mobile { display: none !important; }
+  /* Reduce decorative elements on mobile */
+  .toran-wrap { display: none; }
+  .floral-corner { display: none; }
 }
 @media (min-width: 769px) {
   .hide-desktop { display: none !important; }
+}
+
+/* ── Navbar Styles ───────────────────────────────────────────── */
+.navbar-wedding {
+  background: linear-gradient(to bottom, #FFFDF8, var(--color-surface));
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(74,14,34,0.06);
+}
+.navbar-toran {
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 25%,
+    var(--color-gold) 50%,
+    var(--color-primary) 75%,
+    var(--color-primary-dark) 100%
+  );
+}
+
+/* ── Kundali Chart Styling ───────────────────────────────────── */
+.kundali-outer-frame {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  padding: 3px;
+  border-radius: calc(var(--radius-md) + 3px);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(196,147,42,0.25);
+}
+.kundali-inner {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* ── Footer Wedding Styling ──────────────────────────────────── */
+.footer-wedding {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #3D0A1A 100%);
+  color: rgba(255,255,255,0.60);
+  position: relative;
+  overflow: hidden;
+}
+.footer-wedding::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  opacity: 0.6;
+}
+
+/* ── Hero Section ────────────────────────────────────────────── */
+.hero-wedding {
+  background: linear-gradient(145deg,
+    #3D0A1A 0%,
+    var(--color-primary-dark) 30%,
+    var(--color-primary) 70%,
+    #8B1A48 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.hero-wedding::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 15% 50%, rgba(196,147,42,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 20%, rgba(255,255,255,0.04) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C4932A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── Profile Card Enhancements ───────────────────────────────── */
+.profile-card-wedding {
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-base);
+}
+.profile-card-wedding:hover {
+  border-color: rgba(196,147,42,0.40);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(196,147,42,0.15);
+}
+
+/* ── Stats Counter Styling ───────────────────────────────────── */
+.stat-value-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Ornamental borders for key sections ─────────────────────── */
+.ornamental-section {
+  position: relative;
+  padding: var(--space-8) var(--space-6);
+  border: 1px solid rgba(196,147,42,0.20);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+.ornamental-section::before {
+  content: '✦';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-surface);
+  padding: 0 8px;
+  color: var(--color-gold);
+  font-size: 14px;
 }

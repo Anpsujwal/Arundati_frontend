@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { adminApi } from '../../api/admin.api';
 import { formatDate, statusClass, statusLabel } from '../../utils/format.utils';
-import { Users, Shield, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Users, Shield, CheckCircle, XCircle, AlertCircle, Trash2 } from 'lucide-react';
+import toast from 'react-hot-toast';
+import WeddingDivider from '../../components/wedding-theme/WeddingDivider.jsx';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
@@ -15,6 +17,17 @@ export default function AdminDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleDelete = async (userId, name) => {
+    if (!window.confirm(`Permanently delete "${name}"? This cannot be undone.`)) return;
+    try {
+      await adminApi.deleteUser(userId);
+      setRecent((prev) => prev.filter((r) => r.user_id !== userId));
+      toast.success(`${name} deleted successfully.`);
+    } catch (e) {
+      toast.error(e?.response?.data?.message || 'Failed to delete user.');
+    }
+  };
+
   if (loading) return <div style={{ textAlign:'center', padding:'var(--space-20)' }}><div className="spinner spinner-lg" style={{ margin:'0 auto' }} /></div>;
 
   const STAT_CARDS = [
@@ -26,9 +39,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="page-enter">
-      <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)', marginBottom:'var(--space-8)' }}>
-        Admin Dashboard
-      </h1>
+      <div style={{ marginBottom:'var(--space-6)' }}>
+        <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)' }}>
+          Admin Dashboard
+        </h1>
+        <WeddingDivider size="sm" style={{ margin: 'var(--space-2) 0 0' }} />
+      </div>
 
       {/* Stat cards */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:'var(--space-4)', marginBottom:'var(--space-8)' }}>
@@ -72,9 +88,20 @@ export default function AdminDashboard() {
                   </td>
                   <td style={{ padding:'var(--space-3) var(--space-4)', color:'var(--color-text-muted)' }}>{formatDate(r.created_at)}</td>
                   <td style={{ padding:'var(--space-3) var(--space-4)' }}>
-                    {r.profile_id && (
-                      <Link to={`/admin/profile/${r.profile_id}`} className="btn btn-outline btn-sm">Review</Link>
-                    )}
+                    <div style={{ display:'flex', gap:'var(--space-2)', alignItems:'center' }}>
+                      {r.profile_id && (
+                        <Link to={`/admin/profile/${r.profile_id}`} className="btn btn-outline btn-sm">Review</Link>
+                      )}
+                      <button
+                        id={`btn-delete-user-${r.user_id}`}
+                        className="btn btn-sm"
+                        style={{ color:'#dc2626', background:'#fee2e2', border:'1px solid #fca5a5', padding:'4px 8px' }}
+                        title="Permanently delete this user"
+                        onClick={() => handleDelete(r.user_id, r.first_name ? `${r.first_name} ${r.surname}` : r.email)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

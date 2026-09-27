@@ -36,12 +36,12 @@ export default function Step3Birth({ onNext, onBack }) {
     <div>
       <h2 className="section-title">Step 3 — Birth Information</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-        Birth details are stored securely. Astrology integration will be added in a future phase.
+        Birth details are used for Kundali (horoscope) and Guna Milan compatibility calculations.
       </p>
 
       <div className="alert alert-info" style={{ marginBottom: 'var(--space-6)' }}>
         <span>ℹ</span>
-        <span>All birth fields are optional for now. They will be used for Guna Milan calculations in a future update.</span>
+        <span>Enter your <strong>Time of Birth</strong> and <strong>Birth Place</strong> for accurate Kundali generation. Coordinates are auto-filled from your birth place.</span>
       </div>
 
       <form onSubmit={handleSubmit}>

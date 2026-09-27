@@ -9,7 +9,7 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
     email: '', password: '', confirmPassword: '',
     first_name: '', surname: '',
     gender: '', date_of_birth: '',
-    marital_status: 'Unmarried',
+    marital_status: 'Never Married',
     profile_managed_by: 'Self',
   });
   const [govIdFile, setGovIdFile] = useState(null);
@@ -146,7 +146,7 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
             <label className="input-label" htmlFor="marital_status">Marital Status <span className="required">*</span></label>
             <select id="marital_status" className="select"
               value={form.marital_status} onChange={(e) => set('marital_status', e.target.value)}>
-              <option>Unmarried</option>
+              <option>Never Married</option>
               <option>Divorced</option>
               <option>Widowed</option>
             </select>

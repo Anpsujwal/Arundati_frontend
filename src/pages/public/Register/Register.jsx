@@ -14,6 +14,8 @@ import Step6Photos from './Step6_Photos';
 import Step7Preferences from './Step7_Preferences';
 import toast from 'react-hot-toast';
 
+import MangoToran from '../../../components/wedding-theme/MangoToran.jsx';
+
 export default function Register() {
   const navigate = useNavigate();
   const { register, user, isPending, isAdmin } = useAuth();
@@ -60,35 +62,53 @@ export default function Register() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+      {/* Traditional top mango toran garland */}
+      <div className="toran-wrap" style={{ width: '100%', overflow: 'hidden', background: 'var(--color-surface)', borderBottom: '1px solid rgba(196,147,42,0.15)' }}>
+        <MangoToran density="medium" color="#2D6A3F" goldColor="#C4932A" style={{ opacity: 0.85, margin: '0 auto', maxWidth: '1000px' }} />
+      </div>
+
       {/* Top brand bar */}
       <div style={{
         background: 'var(--color-surface)',
         borderBottom: '1px solid var(--color-border)',
-        padding: 'var(--space-4) 0',
+        padding: 'var(--space-3) 0',
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-          <div style={{
-            background: 'var(--color-primary)',
-            borderRadius: 'var(--radius-md)', padding: '6px 10px',
-            display: 'flex', alignItems: 'center',
-          }}>
-            <Heart size={18} color="white" fill="white" />
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            <div style={{
+              width: '40px', height: '40px',
+              borderRadius: 'var(--radius-md)',
+              background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '1px solid var(--color-gold)',
+              boxShadow: '0 2px 8px rgba(139,26,72,0.2)',
+            }}>
+              <span style={{ fontSize: '1.25rem', fontFamily: 'serif', color: 'var(--color-gold-light)', lineHeight: 1 }}>ॐ</span>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-lg)', color: 'var(--color-primary)', fontWeight: 700, letterSpacing: '0.3px' }}>
+                Arundhati
+              </div>
+              <div style={{ fontSize: '10px', color: 'var(--color-gold)', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase' }}>
+                Brahmin Matrimonial Alliance
+              </div>
+            </div>
           </div>
-          <div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-lg)', color: 'var(--color-primary)', fontWeight: 700 }}>
-              Arundhati
-            </div>
-            <div style={{ fontSize: '10px', color: 'var(--color-gold)', fontWeight: 500, letterSpacing: '0.5px' }}>
-              CREATE YOUR PROFILE
-            </div>
+          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+            Step {currentStep} of 7
           </div>
         </div>
       </div>
 
       <WizardProgress currentStep={currentStep} />
 
-      <div className="container" style={{ maxWidth: '760px', paddingBottom: 'var(--space-16)' }}>
-        <div className="card" style={{ padding: 'var(--space-8)', boxShadow: 'var(--shadow-lg)' }}>
+      <div className="container" style={{ maxWidth: '780px', paddingBottom: 'var(--space-16)' }}>
+        <div className="card card-premium" style={{ 
+          padding: 'var(--space-8)', 
+          boxShadow: 'var(--shadow-lg)',
+          border: '1px solid rgba(196,147,42,0.25)',
+          background: 'var(--color-surface)',
+        }}>
           {currentStep === 1 && <Step1Basic onComplete={handleStep1Complete} alreadyRegistered={registered} />}
           {currentStep === 2 && <Step2Lineage onNext={goNext} onBack={goBack} />}
           {currentStep === 3 && <Step3Birth onNext={goNext} onBack={goBack} />}

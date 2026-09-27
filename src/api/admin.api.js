@@ -7,5 +7,7 @@ export const adminApi = {
   users: (params) => api.get('/admin/users', { params }),
   profile: (id) => api.get(`/admin/profile/${id}`),
   verify: (data) => api.post('/admin/verify', data),
+  deleteUser: (userId) => api.delete(`/admin/users/${userId}`),
   documentUrl: (docId) => `/api/v1/files/document/${docId}`,
 };
+
