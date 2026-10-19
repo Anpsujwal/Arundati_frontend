@@ -271,20 +271,7 @@ export default function Login() {
           </Link>
         </p>
 
-        {/* Dev credentials hint */}
-        <div style={{
-          marginTop: '16px',
-          background: 'rgba(255, 255, 255, 0.06)',
-          borderRadius: '8px',
-          padding: '8px 12px',
-          fontSize: '11px',
-          color: 'rgba(255, 248, 238, 0.55)',
-          textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.10)',
-        }}>
-          <strong style={{ color: 'rgba(255, 248, 238, 0.75)' }}>Dev accounts:</strong><br />
-          Admin: admin@arundhati.local / Admin@1234
-        </div>
+
       </div>
     </div>
   );
