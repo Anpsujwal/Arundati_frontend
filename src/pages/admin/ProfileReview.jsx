@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminApi } from '../../api/admin.api';
+import { getApiBaseUrl } from '../../api/axios.instance';
 import { calcAge, formatDate, formatHeight, getErrorMessage, photoUrl } from '../../utils/format.utils';
 import { ArrowLeft, CheckCircle, XCircle, FileText, Image, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -30,7 +31,7 @@ function InfoRow({ label, value }) {
 function documentUrl(docId) {
   const token = localStorage.getItem('token');
   const qs = token ? `?token=${encodeURIComponent(token)}` : '';
-  return `/api/v1/files/document/${docId}${qs}`;
+  return `${getApiBaseUrl()}/files/document/${docId}${qs}`;
 }
 
 export default function ProfileReview() {

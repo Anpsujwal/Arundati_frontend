@@ -1,4 +1,4 @@
-import api from './axios.instance';
+import api, { getApiBaseUrl } from './axios.instance';
 
 export const adminApi = {
   stats: () => api.get('/admin/stats'),
@@ -8,6 +8,6 @@ export const adminApi = {
   profile: (id) => api.get(`/admin/profile/${id}`),
   verify: (data) => api.post('/admin/verify', data),
   deleteUser: (userId) => api.delete(`/admin/users/${userId}`),
-  documentUrl: (docId) => `/api/v1/files/document/${docId}`,
+  documentUrl: (docId) => `${getApiBaseUrl()}/files/document/${docId}`,
 };
 

@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+export function getApiBaseUrl() {
+  const rawUrl = import.meta.env.VITE_API_URL;
+  if (!rawUrl) return '/api/v1';
+  const clean = rawUrl.replace(/\/+$/, '');
+  return clean.endsWith('/api/v1') ? clean : `${clean}/api/v1`;
+}
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: getApiBaseUrl(),
   withCredentials: true, // Send cookies on every request
   headers: { 'Content-Type': 'application/json' },
 });

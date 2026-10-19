@@ -1,3 +1,5 @@
+import { getApiBaseUrl } from '../api/axios.instance';
+
 /**
  * Calculate age from date_of_birth string (YYYY-MM-DD)
  */
@@ -50,7 +52,7 @@ export function photoUrl(filename) {
   if (!filename) return null;
   const token = localStorage.getItem('token');
   const qs = token ? `?token=${encodeURIComponent(token)}` : '';
-  return `/api/v1/files/photo/${filename}${qs}`;
+  return `${getApiBaseUrl()}/files/photo/${filename}${qs}`;
 }
 
 /**

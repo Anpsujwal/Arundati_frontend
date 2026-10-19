@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://arundati-backend-6ia0swt2b-anpsujwals-projects.vercel.app',
         changeOrigin: true,
         secure: false,
       },
