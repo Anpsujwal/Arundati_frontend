@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { Shield, Heart, Users, Star, CheckCircle, ArrowRight, Moon, Sparkles, BookOpen } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import MangoToran from '../../components/wedding-theme/MangoToran.jsx';
@@ -45,17 +45,17 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { label: 'Verified Profiles',     value: '2,400+' },
-  { label: 'Successful Alliances',  value: '380+'   },
-  { label: 'Brahmin Gotras',        value: '40+'    },
-  { label: 'Years of Tradition',    value: '5,000+' },
+  { label: 'Verified Profiles', value: '2,400+' },
+  { label: 'Successful Alliances', value: '380+' },
+  { label: 'Brahmin Gotras', value: '40+' },
+  { label: 'Years of Tradition', value: '5,000+' },
 ];
 
 const HOW_IT_WORKS = [
   { step: '01', title: 'Register & Build Profile', desc: 'Complete the guided wizard: personal details, lineage, astrology birth data, and family information.', emoji: '📋' },
-  { step: '02', title: 'ID Verification',          desc: 'Our team reviews your Government ID within 24–48 hours and approves your profile for the community.', emoji: '✅' },
-  { step: '03', title: 'Kundali Generated',         desc: 'Our Vedic astrology engine automatically generates your Kundali — Lagna, Rashi, Nakshatra and planetary positions.', emoji: '🔯' },
-  { step: '04', title: 'Discover Sacred Matches',  desc: 'Browse ranked, Gotra-safe, Kundali-compatible profiles. See your Guna Milan score for every match.', emoji: '💞' },
+  { step: '02', title: 'ID Verification', desc: 'Our team reviews your Government ID within 24–48 hours and approves your profile for the community.', emoji: '✅' },
+  { step: '03', title: 'Kundali Generated', desc: 'Our Vedic astrology engine automatically generates your Kundali — Lagna, Rashi, Nakshatra and planetary positions.', emoji: '🔯' },
+  { step: '04', title: 'Discover Sacred Matches', desc: 'Browse ranked, Gotra-safe, Kundali-compatible profiles. See your Guna Milan score for every match.', emoji: '💞' },
 ];
 
 export default function Landing() {
@@ -66,10 +66,10 @@ export default function Landing() {
       {/* ── Hero ────────────────────────────────────────────── */}
       <section className="hero-wedding" style={{ padding: 'var(--space-24) 0 var(--space-20)' }}>
         {/* Decorative radial glows */}
-        <div style={{ position:'absolute', top:'-80px', right:'-80px', width:'480px', height:'480px', borderRadius:'50%', background:'radial-gradient(circle, rgba(196,147,42,0.14) 0%, transparent 70%)', pointerEvents:'none', zIndex:0 }} />
-        <div style={{ position:'absolute', bottom:'-60px', left:'-60px', width:'360px', height:'360px', borderRadius:'50%', background:'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', pointerEvents:'none', zIndex:0 }} />
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '480px', height: '480px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(196,147,42,0.14) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+        <div style={{ position: 'absolute', bottom: '-60px', left: '-60px', width: '360px', height: '360px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
 
-        <div className="container" style={{ position:'relative', textAlign:'center', zIndex:1 }}>
+        <div className="container" style={{ position: 'relative', textAlign: 'center', zIndex: 1 }}>
           {/* OM with glow */}
           <div style={{
             fontSize: '4.5rem', marginBottom: 'var(--space-5)', lineHeight: 1,
@@ -95,7 +95,7 @@ export default function Landing() {
             marginBottom: 'var(--space-4)', color: 'white',
             textShadow: '0 2px 20px rgba(0,0,0,0.25)',
           }}>
-            Find Your Soulmate<br />
+            Find Your Dharmik Companion<br />
             <span style={{ color: 'var(--color-gold-light)' }}>Within the Sacred Lineage</span>
           </h1>
 
@@ -114,11 +114,11 @@ export default function Landing() {
           </div>
 
           <p style={{
-            fontSize: 'var(--text-xl)', opacity: 0.88,
+            fontSize: 'var(--text-xl)', opacity: 0.88, color: 'white',
             maxWidth: '640px', margin: '0 auto var(--space-10)', lineHeight: 1.75,
           }}>
             Arundhati brings the wisdom of Vedic tradition to modern matchmaking.
-            Every match is ranked by <strong style={{ color: 'var(--color-gold-light)', fontWeight: 600 }}>Kundali compatibility</strong>, Gotra safety, and your personal preferences.
+            Every match is ranked by <strong style={{ color: 'var(--color-gold-light)', fontWeight: 600 }}>Kundali compatibility, Gotra filtered matches, and your personal preferences</strong>
           </p>
 
           {/* CTA buttons */}
@@ -252,70 +252,70 @@ export default function Landing() {
         background: 'linear-gradient(145deg, #3D0A1A 0%, var(--color-primary-dark) 50%, var(--color-primary) 100%)',
         padding: 'var(--space-24) 0', position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 15% 50%, rgba(196,147,42,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255,255,255,0.04) 0%, transparent 40%)', pointerEvents:'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(196,147,42,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255,255,255,0.04) 0%, transparent 40%)', pointerEvents: 'none' }} />
 
         {/* Toran above content */}
-        <div className="toran-wrap" style={{ position:'absolute', top:0, left:0, right:0, zIndex:1 }}>
-          <MangoToran density="light" color="#3A7A4A" goldColor="#C4932A" style={{ opacity:0.55 }} />
+        <div className="toran-wrap" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1 }}>
+          <MangoToran density="light" color="#3A7A4A" goldColor="#C4932A" style={{ opacity: 0.55 }} />
         </div>
 
-        <div className="container" style={{ position:'relative', zIndex:2 }}>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'var(--space-12)', alignItems:'center' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-12)', alignItems: 'center' }}>
             <div>
-              <p style={{ color:'var(--color-gold-light)', fontWeight:600, letterSpacing:'3px', fontSize:'var(--text-xs)', textTransform:'uppercase', marginBottom:'var(--space-4)' }}>
+              <p style={{ color: 'var(--color-gold-light)', fontWeight: 600, letterSpacing: '3px', fontSize: 'var(--text-xs)', textTransform: 'uppercase', marginBottom: 'var(--space-4)' }}>
                 Vedic Astrology at Its Core
               </p>
-              <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'clamp(1.8rem, 4vw, 3rem)', color:'white', marginBottom:'var(--space-5)', lineHeight:1.2 }}>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'white', marginBottom: 'var(--space-5)', lineHeight: 1.2 }}>
                 Every Match is Backed by<br />
-                <span style={{ color:'var(--color-gold-light)' }}>Kundali Science</span>
+                <span style={{ color: 'var(--color-gold-light)' }}>Kundali Science</span>
               </h2>
-              <p style={{ color:'rgba(255,255,255,0.78)', lineHeight:1.85, marginBottom:'var(--space-8)' }}>
+              <p style={{ color: 'rgba(255,255,255,0.78)', lineHeight: 1.85, marginBottom: 'var(--space-8)' }}>
                 When your profile is approved, our system automatically generates your Kundali using precise birth data.
                 Every potential match is scored using the complete Ashta Koota framework — the same method trusted by Brahmin families for generations.
-                Only matches scoring <strong style={{ color:'var(--color-gold-light)' }}>18 or more out of 36</strong> are shown to you.
+                Only matches scoring <strong style={{ color: 'var(--color-gold-light)' }}>18 or more out of 36</strong> are shown to you.
               </p>
-              <Link to="/register" className="btn btn-gold btn-lg" style={{ boxShadow:'0 4px 24px rgba(196,147,42,0.45)' }}>
+              <Link to="/register" className="btn btn-gold btn-lg" style={{ boxShadow: '0 4px 24px rgba(196,147,42,0.45)' }}>
                 Start Your Journey <ArrowRight size={18} />
               </Link>
             </div>
 
-            <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-3)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
               {[
-                { label: 'Varna Koota',   pts: 1, desc: 'Spiritual & social compatibility' },
-                { label: 'Vasya Koota',   pts: 2, desc: 'Mutual attraction & control' },
-                { label: 'Tara Koota',    pts: 3, desc: 'Birth star compatibility' },
-                { label: 'Yoni Koota',    pts: 4, desc: 'Physical & biological harmony' },
-                { label: 'Grah Maitri',   pts: 5, desc: 'Planetary friendship' },
-                { label: 'Gana Koota',    pts: 6, desc: 'Temperament & nature' },
+                { label: 'Varna Koota', pts: 1, desc: 'Spiritual & social compatibility' },
+                { label: 'Vasya Koota', pts: 2, desc: 'Mutual attraction & control' },
+                { label: 'Tara Koota', pts: 3, desc: 'Birth star compatibility' },
+                { label: 'Yoni Koota', pts: 4, desc: 'Physical & biological harmony' },
+                { label: 'Grah Maitri', pts: 5, desc: 'Planetary friendship' },
+                { label: 'Gana Koota', pts: 6, desc: 'Temperament & nature' },
                 { label: 'Bhakoot Koota', pts: 7, desc: 'Emotional & family welfare' },
-                { label: 'Nadi Koota',    pts: 8, desc: 'Health & progeny — highest weight' },
+                { label: 'Nadi Koota', pts: 8, desc: 'Health & progeny — highest weight' },
               ].map(({ label, pts, desc }) => (
                 <div key={label} style={{
-                  display:'flex', alignItems:'center', gap:'var(--space-3)',
-                  background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.11)',
-                  borderRadius:'var(--radius-md)', padding:'var(--space-3) var(--space-4)',
-                  backdropFilter:'blur(8px)',
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                  background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.11)',
+                  borderRadius: 'var(--radius-md)', padding: 'var(--space-3) var(--space-4)',
+                  backdropFilter: 'blur(8px)',
                   transition: 'background var(--transition-fast)',
                 }}>
                   <div style={{
-                    minWidth:'34px', height:'34px',
-                    background:'linear-gradient(135deg, var(--color-gold), var(--color-gold-deep))',
-                    borderRadius:'var(--radius-sm)',
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    fontFamily:'var(--font-heading)', fontWeight:700, fontSize:'var(--text-sm)', color:'white',
+                    minWidth: '34px', height: '34px',
+                    background: 'linear-gradient(135deg, var(--color-gold), var(--color-gold-deep))',
+                    borderRadius: 'var(--radius-sm)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'white',
                   }}>{pts}</div>
-                  <div style={{ flex:1 }}>
-                    <div style={{ color:'white', fontWeight:600, fontSize:'var(--text-sm)' }}>{label}</div>
-                    <div style={{ color:'rgba(255,255,255,0.50)', fontSize:'var(--text-xs)' }}>{desc}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ color: 'white', fontWeight: 600, fontSize: 'var(--text-sm)' }}>{label}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.50)', fontSize: 'var(--text-xs)' }}>{desc}</div>
                   </div>
-                  <div style={{ color:'var(--color-gold-light)', fontSize:'var(--text-xs)', fontWeight:700 }}>{pts} pts</div>
+                  <div style={{ color: 'var(--color-gold-light)', fontSize: 'var(--text-xs)', fontWeight: 700 }}>{pts} pts</div>
                 </div>
               ))}
               <div style={{
-                textAlign:'center', padding:'var(--space-3)',
-                background:'rgba(196,147,42,0.15)', borderRadius:'var(--radius-md)',
-                border:'1px solid rgba(196,147,42,0.35)', color:'var(--color-gold-light)',
-                fontWeight:600, fontSize:'var(--text-sm)', marginTop:'var(--space-1)',
+                textAlign: 'center', padding: 'var(--space-3)',
+                background: 'rgba(196,147,42,0.15)', borderRadius: 'var(--radius-md)',
+                border: '1px solid rgba(196,147,42,0.35)', color: 'var(--color-gold-light)',
+                fontWeight: 600, fontSize: 'var(--text-sm)', marginTop: 'var(--space-1)',
               }}>
                 Total: 36 Points · Minimum 18 required for eligibility
               </div>
@@ -327,45 +327,45 @@ export default function Landing() {
       {/* ── How It Works ────────────────────────────────────── */}
       <section style={{ background: 'var(--color-surface)', padding: 'var(--space-24) 0' }}>
         <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'var(--space-6)' }}>
-            <p style={{ color:'var(--color-gold)', fontWeight:600, letterSpacing:'3px', fontSize:'var(--text-xs)', textTransform:'uppercase', marginBottom:'var(--space-3)' }}>
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
+            <p style={{ color: 'var(--color-gold)', fontWeight: 600, letterSpacing: '3px', fontSize: 'var(--text-xs)', textTransform: 'uppercase', marginBottom: 'var(--space-3)' }}>
               The Journey
             </p>
-            <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'clamp(1.8rem, 4vw, 3rem)' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}>
               Your Path to Alliance
             </h2>
           </div>
 
           <WeddingDivider style={{ marginBottom: 'var(--space-12)' }} />
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'var(--space-8)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-8)' }}>
             {HOW_IT_WORKS.map(({ step, title, desc, emoji }, i) => (
-              <div key={step} style={{ textAlign:'center', padding:'var(--space-4)', position:'relative' }}>
+              <div key={step} style={{ textAlign: 'center', padding: 'var(--space-4)', position: 'relative' }}>
                 {i < HOW_IT_WORKS.length - 1 && (
                   <div style={{
-                    position:'absolute', top:'28px', right:'-12px',
-                    fontSize:'1.2rem', color:'var(--color-gold)', opacity:0.45, zIndex:1,
+                    position: 'absolute', top: '28px', right: '-12px',
+                    fontSize: '1.2rem', color: 'var(--color-gold)', opacity: 0.45, zIndex: 1,
                   }}>
                     &#8594;
                   </div>
                 )}
                 <div style={{
-                  width:'72px', height:'72px',
-                  background:'linear-gradient(135deg, var(--color-primary-faint), var(--color-gold-faint))',
-                  border:'2px solid var(--color-gold)', borderRadius:'50%',
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  margin:'0 auto var(--space-4)', fontSize:'1.7rem',
-                  boxShadow:'var(--shadow-gold)',
+                  width: '72px', height: '72px',
+                  background: 'linear-gradient(135deg, var(--color-primary-faint), var(--color-gold-faint))',
+                  border: '2px solid var(--color-gold)', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto var(--space-4)', fontSize: '1.7rem',
+                  boxShadow: 'var(--shadow-gold)',
                 }}>
                   {emoji}
                 </div>
-                <div style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-xs)', color:'var(--color-gold)', fontWeight:700, letterSpacing:'2px', marginBottom:'var(--space-2)' }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-xs)', color: 'var(--color-gold)', fontWeight: 700, letterSpacing: '2px', marginBottom: 'var(--space-2)' }}>
                   STEP {step}
                 </div>
-                <h3 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-lg)', marginBottom:'var(--space-2)' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>
                   {title}
                 </h3>
-                <p style={{ color:'var(--color-text-muted)', fontSize:'var(--text-sm)', lineHeight:1.7 }}>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', lineHeight: 1.7 }}>
                   {desc}
                 </p>
               </div>
@@ -377,35 +377,35 @@ export default function Landing() {
       {/* ── CTA ─────────────────────────────────────────────── */}
       <section style={{
         background: 'linear-gradient(145deg, var(--color-gold-faint) 0%, var(--color-primary-faint) 100%)',
-        padding: 'var(--space-24) 0', textAlign:'center',
+        padding: 'var(--space-24) 0', textAlign: 'center',
         borderTop: '1px solid var(--color-border)',
         position: 'relative', overflow: 'hidden',
       }}>
         {/* Floral corners (desktop only) */}
         <div className="floral-corner">
-          <FloralDecoration position="top-left"     size={100} opacity={0.35} />
-          <FloralDecoration position="top-right"    size={100} opacity={0.35} />
-          <FloralDecoration position="bottom-left"  size={80}  opacity={0.25} />
-          <FloralDecoration position="bottom-right" size={80}  opacity={0.25} />
+          <FloralDecoration position="top-left" size={100} opacity={0.35} />
+          <FloralDecoration position="top-right" size={100} opacity={0.35} />
+          <FloralDecoration position="bottom-left" size={80} opacity={0.25} />
+          <FloralDecoration position="bottom-right" size={80} opacity={0.25} />
         </div>
 
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           {/* Lotus emoji */}
-          <div style={{ fontSize:'3.2rem', marginBottom:'var(--space-5)', lineHeight:1, filter:'drop-shadow(0 0 12px rgba(196,147,42,0.35))' }}>
+          <div style={{ fontSize: '3.2rem', marginBottom: 'var(--space-5)', lineHeight: 1, filter: 'drop-shadow(0 0 12px rgba(196,147,42,0.35))' }}>
             🪷
           </div>
 
-          <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'clamp(1.8rem, 4vw, 3rem)', color:'var(--color-primary)', marginBottom:'var(--space-4)' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-primary)', marginBottom: 'var(--space-4)' }}>
             Begin Your Sacred Journey
           </h2>
-          <p style={{ color:'var(--color-text-muted)', maxWidth:'520px', margin:'0 auto var(--space-8)', lineHeight:1.8 }}>
+          <p style={{ color: 'var(--color-text-muted)', maxWidth: '520px', margin: '0 auto var(--space-8)', lineHeight: 1.8 }}>
             Join Brahmin families who trust Arundhati for verified, Kundali-matched, Gotra-safe alliances — rooted in tradition, built for today.
           </p>
 
           <WeddingDivider size="sm" style={{ maxWidth: '400px', margin: '0 auto var(--space-8)' }} />
 
-          <div style={{ display:'flex', gap:'var(--space-4)', justifyContent:'center', flexWrap:'wrap' }}>
-            <Link to="/register" className="btn btn-primary btn-xl" style={{ boxShadow:'var(--shadow-lg)' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/register" className="btn btn-primary btn-xl" style={{ boxShadow: 'var(--shadow-lg)' }}>
               Create Your Profile <ArrowRight size={20} />
             </Link>
             <Link to="/login" className="btn btn-outline btn-xl">Sign In</Link>
@@ -420,15 +420,15 @@ export default function Landing() {
           <MangoToran density="light" color="#4A8A5A" goldColor="#C4932A" />
         </div>
 
-        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'var(--space-4)' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'var(--space-3)' }}>
-            <span style={{ fontSize:'1.6rem', fontFamily:'serif' }}>ॐ</span>
-            <span style={{ fontFamily:'var(--font-heading)', color:'rgba(255,255,255,0.85)', fontSize:'var(--text-lg)' }}>Arundhati</span>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            <span style={{ fontSize: '1.6rem', fontFamily: 'serif' }}>ॐ</span>
+            <span style={{ fontFamily: 'var(--font-heading)', color: 'rgba(255,255,255,0.85)', fontSize: 'var(--text-lg)' }}>Arundhati</span>
           </div>
-          <div style={{ textAlign:'center', fontSize: 'var(--text-xs)' }}>
+          <div style={{ textAlign: 'center', fontSize: 'var(--text-xs)' }}>
             &copy; {new Date().getFullYear()} Arundhati &mdash; Brahmin Alliance Matrimony Platform. Built with respect for tradition and community values.
           </div>
-          <div style={{ display:'flex', gap:'var(--space-4)', fontSize:'var(--text-xs)' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-4)', fontSize: 'var(--text-xs)' }}>
             <span>Kundali-Matched</span>
             <span>&middot;</span>
             <span>Gotra-Safe</span>
