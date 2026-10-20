@@ -14,6 +14,7 @@ import Matches from '../pages/user/Matches';
 import CandidateProfile from '../pages/user/CandidateProfile';
 import Interests from '../pages/user/Interests';
 import MyProfile from '../pages/user/MyProfile';
+import EditProfile from '../pages/user/EditProfile';
 import Compatibility from '../pages/user/Compatibility';
 
 // Admin pages
@@ -38,7 +39,8 @@ export default function AppRouter() {
         <Route path="matches/:id" element={<CandidateProfile />} />
         <Route path="matches/:id/compatibility" element={<Compatibility />} />
         <Route path="interests"   element={<Interests />} />
-        <Route path="profile/me"  element={<MyProfile />} />
+        <Route path="profile/me"   element={<MyProfile />} />
+        <Route path="profile/edit" element={<EditProfile />} />
       </Route>
 
       {/* Admin */}

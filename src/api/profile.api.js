@@ -21,4 +21,6 @@ export const profileApi = {
     form.append('doc_type', doc_type);
     return api.post('/profile/document', form, { headers: { 'Content-Type': 'multipart/form-data' } });
   },
+  updateProfile: (data) => api.put('/profile/me', data),
+  deleteAccount: () => api.delete('/profile/account'),
 };

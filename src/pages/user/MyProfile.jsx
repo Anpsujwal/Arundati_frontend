@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Edit3, Trash2, AlertTriangle, Loader2 } from 'lucide-react';
 import { profileApi } from '../../api/profile.api';
 import { getMyKundali, getMyChart } from '../../api/kundali.api';
 import { useAuth } from '../../contexts/AuthContext';
-import { calcAge, formatHeight, formatDate, photoUrl, statusLabel, statusClass } from '../../utils/format.utils';
+import { calcAge, formatHeight, formatDate, photoUrl, statusLabel, statusClass, getErrorMessage } from '../../utils/format.utils';
 import SouthIndianChart from '../../components/kundali/SouthIndianChart';
 import KundaliLegend from '../../components/kundali/KundaliLegend';
 import OrnamentalFrame from '../../components/wedding-theme/OrnamentalFrame.jsx';
 import WeddingDivider from '../../components/wedding-theme/WeddingDivider.jsx';
+import toast from 'react-hot-toast';
 
 function InfoRow({ label, value }) {
   if (!value) return null;
@@ -23,17 +26,39 @@ function InfoRow({ label, value }) {
 }
 
 export default function MyProfile() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [data, setData]         = useState(null);
   const [loading, setLoading]   = useState(true);
   const [kundali, setKundali]   = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmationText, setDeleteConfirmationText] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     profileApi.me().then((r) => setData(r.data.data)).finally(() => setLoading(false));
     getMyKundali().then((k) => setKundali(k)).catch(() => {});
     getMyChart().then((cd) => setChartData(cd)).catch(() => {});
   }, []);
+
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmationText.trim().toUpperCase() !== 'DELETE') {
+      toast.error('Please type DELETE to confirm.');
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      await profileApi.deleteAccount();
+      toast.success('Your account and all associated data have been permanently removed.');
+      await logout();
+      navigate('/', { replace: true });
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+      setDeleting(false);
+    }
+  };
 
   if (loading) return (
     <div style={{ textAlign:'center', padding:'var(--space-20)' }}>
@@ -48,12 +73,50 @@ export default function MyProfile() {
   return (
     <div className="page-enter">
       {/* Header */}
-      <div style={{ marginBottom:'var(--space-6)' }}>
-        <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)' }}>
-          My Profile
-        </h1>
-        <div style={{ display:'flex', alignItems:'center', gap:'var(--space-2)', marginTop:'var(--space-2)' }}>
-          <span className={`badge ${statusClass(user?.account_status)}`}>{statusLabel(user?.account_status)}</span>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: 'var(--space-4)',
+        marginBottom: 'var(--space-6)',
+      }}>
+        <div>
+          <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'var(--color-primary)' }}>
+            My Profile
+          </h1>
+          <div style={{ display:'flex', alignItems:'center', gap:'var(--space-2)', marginTop:'var(--space-2)' }}>
+            <span className={`badge ${statusClass(user?.account_status)}`}>{statusLabel(user?.account_status)}</span>
+          </div>
+        </div>
+
+        {/* Top Right Side Action Buttons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+          <Link
+            to="/profile/edit"
+            className="btn btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              textDecoration: 'none',
+              boxShadow: 'var(--shadow-md)',
+            }}
+          >
+            <Edit3 size={15} /> Edit Profile
+          </Link>
+          <button
+            type="button"
+            onClick={() => setShowDeleteModal(true)}
+            className="btn btn-outline-danger"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+            }}
+          >
+            <Trash2 size={15} /> Remove Account
+          </button>
         </div>
       </div>
 
@@ -263,6 +326,92 @@ export default function MyProfile() {
               </p>
             )}
           </OrnamentalFrame>
+        </div>
+      )}
+
+      {/* Delete Account Confirmation Modal */}
+      {showDeleteModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.65)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: 'var(--space-4)',
+          backdropFilter: 'blur(3px)',
+        }}>
+          <div className="card" style={{
+            maxWidth: '500px',
+            width: '100%',
+            padding: 'var(--space-6)',
+            boxShadow: 'var(--shadow-xl)',
+            borderRadius: 'var(--radius-xl)',
+            border: '2px solid var(--color-error)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: '50%',
+                background: 'var(--color-error-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <AlertTriangle size={22} color="var(--color-error)" />
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-2xl)', color: 'var(--color-error)', margin: 0 }}>
+                Delete Account Permanently?
+              </h3>
+            </div>
+
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.5, marginBottom: 'var(--space-4)' }}>
+              Are you sure you want to delete your account? This action is <strong>irreversible</strong>.
+              All your records, lineage information, photos, Kundali calculations, and matrimonial matches will be permanently erased.
+            </p>
+
+            <div style={{
+              background: 'var(--color-surface-2)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-md)',
+              padding: 'var(--space-3)',
+              marginBottom: 'var(--space-4)',
+            }}>
+              <label style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--color-text)', display: 'block', marginBottom: 'var(--space-2)' }}>
+                To confirm permanent deletion, type <span style={{ color: 'var(--color-error)', fontWeight: 700 }}>DELETE</span> below:
+              </label>
+              <input
+                type="text"
+                className="input"
+                placeholder="Type DELETE"
+                value={deleteConfirmationText}
+                onChange={(e) => setDeleteConfirmationText(e.target.value)}
+                autoFocus
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-3)' }}>
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDeleteConfirmationText('');
+                }}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                disabled={deleteConfirmationText.trim().toUpperCase() !== 'DELETE' || deleting}
+                onClick={handleDeleteAccount}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}
+              >
+                {deleting ? <Loader2 size={16} className="spinner" /> : <Trash2 size={16} />}
+                {deleting ? 'Deleting Account…' : 'Yes, Delete My Account'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

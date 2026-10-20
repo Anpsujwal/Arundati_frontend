@@ -250,6 +250,32 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
+.btn-danger {
+  background: var(--color-error);
+  color: #ffffff;
+  border-color: var(--color-error);
+  box-shadow: 0 2px 8px rgba(198,40,40,0.25);
+}
+.btn-danger:hover:not(:disabled) {
+  background: #a71d1d;
+  border-color: #a71d1d;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(198,40,40,0.35);
+  transform: translateY(-1px);
+}
+
+.btn-outline-danger {
+  background: transparent;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+.btn-outline-danger:hover:not(:disabled) {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+  transform: translateY(-1px);
+}
+
 .btn-sm  { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
 .btn-lg  { padding: var(--space-4) var(--space-8); font-size: var(--text-base); }
 .btn-xl  { padding: var(--space-5) var(--space-10); font-size: var(--text-lg); }
