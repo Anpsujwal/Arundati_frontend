@@ -35,13 +35,13 @@ export default function PendingVerification() {
       ) : (
         <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)' }}>
           {profiles.map((p) => (
-            <div key={p.user_id} className="card" style={{ display:'flex', alignItems:'center', gap:'var(--space-5)', padding:'var(--space-5)', flexWrap:'wrap' }}>
+            <div key={p.user_id} className="card" style={{ display:'flex', alignItems:'center', gap:'var(--space-4)', padding:'clamp(var(--space-3), 3vw, var(--space-5))', flexWrap:'wrap' }}>
               {/* Avatar placeholder */}
-              <div style={{ width:56, height:56, borderRadius:'50%', background:'var(--color-surface-2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px', flexShrink:0 }}>
+              <div style={{ width:52, height:52, borderRadius:'50%', background:'var(--color-surface-2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px', flexShrink:0 }}>
                 {p.gender === 'Female' ? '👩' : '👨'}
               </div>
 
-              <div style={{ flex:1, minWidth:'200px' }}>
+              <div style={{ flex:1, minWidth:'180px' }}>
                 <div style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-lg)', fontWeight:600 }}>
                   {p.first_name ? `${p.first_name} ${p.surname}` : '(Incomplete profile)'}
                 </div>
@@ -56,7 +56,7 @@ export default function PendingVerification() {
                 </div>
               </div>
 
-              <Link to={`/admin/profile/${p.profile_id}`} className="btn btn-primary btn-sm" style={{ flexShrink:0 }}>
+              <Link to={`/admin/profile/${p.profile_id}`} className="btn btn-primary btn-sm" style={{ flexShrink:0, marginLeft:'auto' }}>
                 Review Profile →
               </Link>
             </div>

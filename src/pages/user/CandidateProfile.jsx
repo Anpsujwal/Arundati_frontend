@@ -19,9 +19,9 @@ function Section({ title, children }) {
 function InfoRow({ label, value }) {
   if (!value) return null;
   return (
-    <div style={{ display:'flex', gap:'var(--space-4)', padding:'var(--space-3) 0', borderBottom:'1px solid var(--color-border)' }}>
-      <span style={{ minWidth:160, color:'var(--color-text-muted)', fontSize:'var(--text-sm)', fontWeight:500 }}>{label}</span>
-      <span style={{ fontSize:'var(--text-sm)', color:'var(--color-text)' }}>{value}</span>
+    <div className="info-row-responsive">
+      <span className="info-row-label">{label}</span>
+      <span className="info-row-value">{value}</span>
     </div>
   );
 }
@@ -85,23 +85,15 @@ export default function CandidateProfile() {
         {/* Gold top stripe */}
         <div style={{ height:'3px', background:'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))' }} />
 
-        <div style={{ display:'flex', gap:'var(--space-8)', padding:'var(--space-7)', flexWrap:'wrap' }}>
+        <div className="profile-header-responsive" style={{ padding:'clamp(var(--space-4), 3vw, var(--space-7))' }}>
           {/* Avatar */}
-          <div style={{ flexShrink:0 }}>
-            <div style={{
-              width:'150px', height:'150px', borderRadius:'var(--radius-xl)',
-              overflow:'hidden', border:'3px solid rgba(196,147,42,0.40)',
-              background:'var(--color-surface-2)',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              boxShadow:'var(--shadow-gold)',
-            }}>
-              {primaryPhoto ? (
-                <img src={photoUrl(primaryPhoto.filename)} alt={data.first_name}
-                  style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-              ) : (
-                <span style={{ fontSize:'64px' }}>{data.gender === 'Female' ? '👩' : '👨'}</span>
-              )}
-            </div>
+          <div className="profile-avatar-box">
+            {primaryPhoto ? (
+              <img src={photoUrl(primaryPhoto.filename)} alt={data.first_name}
+                style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            ) : (
+              <span style={{ fontSize:'54px' }}>{data.gender === 'Female' ? '👩' : '👨'}</span>
+            )}
           </div>
 
           {/* Name + quick stats */}
@@ -155,7 +147,7 @@ export default function CandidateProfile() {
       <WeddingDivider style={{ marginBottom:'var(--space-6)' }} />
 
       {/* Details columns */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-6)' }}>
+      <div className="grid-2-col-responsive">
         {/* Left column */}
         <div>
           <Section title="🔱 Lineage & Heritage">
@@ -194,7 +186,7 @@ export default function CandidateProfile() {
 
           {data.photos && data.photos.length > 0 && (
             <Section title="📸 Photos">
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'var(--space-2)' }}>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(80px, 1fr))', gap:'var(--space-2)' }}>
                 {data.photos.map((p) => (
                   <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--color-border)' }}>
                     <img src={photoUrl(p.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />

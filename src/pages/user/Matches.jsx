@@ -221,11 +221,11 @@ function ProfileCard({ match, onInterestSent, onGraded, onAlreadyDealt }) {
       </Link>
 
       {/* ── Action bar ─────────────────────────────────────────────────────── */}
-      <div style={{ padding: 'var(--space-3) var(--space-4) var(--space-2)', display: 'flex', gap: 'var(--space-2)', marginTop: 'auto', borderTop: '1px solid var(--color-border)' }}>
+      <div style={{ padding: 'var(--space-3) var(--space-4) var(--space-2)', display: 'flex', gap: 'var(--space-2)', marginTop: 'auto', borderTop: '1px solid var(--color-border)', flexWrap: 'wrap' }}>
         <Link
           to={`/matches/${match.profile_id}/compatibility`}
           className="btn btn-outline btn-sm"
-          style={{ flex: 1, textAlign: 'center', fontSize: '12px' }}
+          style={{ flex: 1, minWidth: '110px', textAlign: 'center', fontSize: '12px', minHeight: '36px' }}
         >
           🔮 Compatibility
         </Link>
@@ -233,7 +233,7 @@ function ProfileCard({ match, onInterestSent, onGraded, onAlreadyDealt }) {
           onClick={handleSendInterest}
           disabled={sending}
           className="btn btn-primary btn-sm"
-          style={{ flex: 1, fontSize: '12px' }}
+          style={{ flex: 1, minWidth: '110px', fontSize: '12px', minHeight: '36px' }}
         >
           <Heart size={13} fill={sending ? 'white' : 'none'} />
           {sending ? 'Sending…' : 'Interest'}
@@ -406,7 +406,7 @@ export default function Matches() {
         <>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 270px), 1fr))',
             gap: 'var(--space-5)',
             marginBottom: 'var(--space-8)',
           }}>

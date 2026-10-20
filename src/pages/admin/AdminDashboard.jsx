@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:'var(--space-4)', marginBottom:'var(--space-8)' }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap:'var(--space-4)', marginBottom:'var(--space-8)' }}>
         {STAT_CARDS.map(({ label, value, icon:Icon, color, link }) => (
           <div key={label} className="card card-padded" style={{ textAlign:'center' }}>
             <div style={{ width:48, height:48, borderRadius:'var(--radius-md)', background:`color-mix(in srgb, ${color} 12%, white)`, display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto var(--space-3)' }}>
@@ -62,10 +62,10 @@ export default function AdminDashboard() {
 
       {/* Recent submissions */}
       <div className="card">
-        <div style={{ padding:'var(--space-5) var(--space-6)', borderBottom:'1px solid var(--color-border)' }}>
+        <div style={{ padding:'var(--space-4) var(--space-5)', borderBottom:'1px solid var(--color-border)' }}>
           <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-xl)' }}>Recent Submissions</h2>
         </div>
-        <div style={{ overflowX:'auto' }}>
+        <div className="table-responsive">
           <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'var(--text-sm)' }}>
             <thead>
               <tr style={{ background:'var(--color-surface-2)' }}>

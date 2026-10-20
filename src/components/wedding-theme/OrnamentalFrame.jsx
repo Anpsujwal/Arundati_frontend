@@ -29,17 +29,19 @@ export default function OrnamentalFrame({
       position: 'relative',
       border: `1.5px solid ${bc}`,
       borderRadius: 'var(--radius-lg)',
-      padding: title ? 'var(--space-8) var(--space-6) var(--space-6)' : 'var(--space-6)',
+      padding: title ? 'clamp(var(--space-5), 4vw, var(--space-8)) clamp(var(--space-3), 3vw, var(--space-6)) clamp(var(--space-4), 3vw, var(--space-6))' : 'clamp(var(--space-4), 3vw, var(--space-6))',
       background: 'var(--color-surface)',
       boxShadow: '0 4px 24px rgba(196,147,42,0.08)',
       overflow: 'hidden',
       ...style,
     }}>
-      {/* Corner ornaments */}
-      <FloralDecoration position="top-left"     size={60} opacity={0.45} />
-      <FloralDecoration position="top-right"    size={60} opacity={0.45} />
-      <FloralDecoration position="bottom-left"  size={50} opacity={0.35} />
-      <FloralDecoration position="bottom-right" size={50} opacity={0.35} />
+      {/* Corner ornaments (hidden on mobile to prevent overlap) */}
+      <div className="floral-corner">
+        <FloralDecoration position="top-left"     size={60} opacity={0.45} />
+        <FloralDecoration position="top-right"    size={60} opacity={0.45} />
+        <FloralDecoration position="bottom-left"  size={50} opacity={0.35} />
+        <FloralDecoration position="bottom-right" size={50} opacity={0.35} />
+      </div>
 
       {/* Title banner */}
       {title && (

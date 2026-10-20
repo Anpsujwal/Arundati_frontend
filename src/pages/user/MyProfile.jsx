@@ -14,13 +14,9 @@ import toast from 'react-hot-toast';
 function InfoRow({ label, value }) {
   if (!value) return null;
   return (
-    <div style={{
-      display:'flex', gap:'var(--space-4)',
-      padding:'var(--space-2) 0',
-      borderBottom:'1px solid var(--color-border)',
-    }}>
-      <span style={{ minWidth:160, color:'var(--color-text-muted)', fontSize:'var(--text-sm)', fontWeight:500 }}>{label}</span>
-      <span style={{ fontSize:'var(--text-sm)' }}>{value}</span>
+    <div className="info-row-responsive">
+      <span className="info-row-label">{label}</span>
+      <span className="info-row-value">{value}</span>
     </div>
   );
 }
@@ -121,25 +117,18 @@ export default function MyProfile() {
       </div>
 
       {/* Profile hero card */}
-      <div className="card card-premium" style={{ padding:'var(--space-6)', marginBottom:'var(--space-6)', display:'flex', gap:'var(--space-6)', flexWrap:'wrap', position:'relative', overflow:'hidden' }}>
+      <div className="card card-premium profile-header-responsive" style={{ padding:'clamp(var(--space-4), 3vw, var(--space-6))', marginBottom:'var(--space-6)', position:'relative', overflow:'hidden' }}>
         {/* Gold top stripe */}
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))' }} />
 
         {/* Avatar */}
-        <div style={{
-          width:120, height:120, borderRadius:'var(--radius-xl)',
-          overflow:'hidden', border:'3px solid rgba(196,147,42,0.40)',
-          background:'var(--color-surface-2)',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          flexShrink:0,
-          boxShadow:'var(--shadow-gold)',
-        }}>
+        <div className="profile-avatar-box" style={{ width: 110, height: 110 }}>
           {primaryPhoto
             ? <img src={photoUrl(primaryPhoto.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
             : <span style={{ fontSize:'48px' }}>{profile?.gender === 'Female' ? '👩' : '👨'}</span>}
         </div>
 
-        <div>
+        <div className="profile-header-info">
           <h2 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-2xl)' }}>
             {profile?.first_name} {profile?.surname}
           </h2>
@@ -153,7 +142,7 @@ export default function MyProfile() {
       </div>
 
       {/* Info sections */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-6)' }}>
+      <div className="grid-2-col-responsive">
         <div>
           <div style={{ marginBottom:'var(--space-8)' }}>
             <h2 className="section-title">Lineage</h2>
@@ -204,7 +193,7 @@ export default function MyProfile() {
           {photos && photos.length > 0 && (
             <div>
               <h2 className="section-title">Photos</h2>
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-2)' }}>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(80px, 1fr))', gap:'var(--space-2)' }}>
                 {photos.map((p) => (
                   <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--color-border)' }}>
                     <img src={photoUrl(p.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
@@ -226,7 +215,7 @@ export default function MyProfile() {
           <OrnamentalFrame title="My Kundali" showToran={true}>
             {/* Chart — unchanged when generated */}
             {chartData?.kundali_status === 'GENERATED' && (
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-6)', alignItems:'start' }}>
+              <div className="grid-2-col-responsive" style={{ alignItems:'start' }}>
                 {/* South Indian chart — completely unchanged */}
                 <div>
                   <SouthIndianChart

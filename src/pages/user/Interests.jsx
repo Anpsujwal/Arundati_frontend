@@ -12,13 +12,13 @@ function InterestCard({ item, type, onRespond }) {
   const statusColors = { Pending:'badge-pending', Accepted:'badge-approved', Declined:'badge-rejected' };
 
   return (
-    <div className="card card-premium" style={{ display:'flex', alignItems:'center', gap:'var(--space-4)', padding:'var(--space-4)', position:'relative', overflow:'hidden' }}>
+    <div className="card card-premium" style={{ display:'flex', alignItems:'center', gap:'var(--space-4)', padding:'var(--space-4)', position:'relative', overflow:'hidden', flexWrap:'wrap' }}>
       <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))', opacity:0.5 }} />
       <div style={{ width:56, height:56, borderRadius:'50%', overflow:'hidden', flexShrink:0, background:'var(--color-surface-2)', display:'flex', alignItems:'center', justifyContent:'center', border:'2px solid rgba(196,147,42,0.30)' }}>
         {photo ? <img src={photo} alt={item.first_name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
           : <span style={{ fontSize:'24px' }}>👤</span>}
       </div>
-      <div style={{ flex:1 }}>
+      <div style={{ flex:1, minWidth:'180px' }}>
         <Link to={`/matches/${type === 'sent' ? item.receiver_profile_id : item.sender_profile_id}`}
           style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-lg)', color:'var(--color-primary)', textDecoration:'none' }}>
           {item.first_name} {item.surname}
@@ -34,7 +34,7 @@ function InterestCard({ item, type, onRespond }) {
         </div>
       </div>
       {type === 'received' && item.status === 'Pending' && (
-        <div style={{ display:'flex', gap:'var(--space-2)', flexShrink:0 }}>
+        <div style={{ display:'flex', gap:'var(--space-2)', flexShrink:0, marginLeft:'auto' }}>
           <button className="btn btn-primary btn-sm" onClick={() => onRespond(item.interest_id, 'Accepted')}>Accept</button>
           <button className="btn btn-ghost btn-sm" onClick={() => onRespond(item.interest_id, 'Declined')}>Decline</button>
         </div>

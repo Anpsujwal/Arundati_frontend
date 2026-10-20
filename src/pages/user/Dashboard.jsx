@@ -40,9 +40,9 @@ export default function Dashboard() {
           <MangoToran density="full" color="#3A7A4A" goldColor="#C4932A" style={{ marginTop:'-10px', opacity:0.65 }} />
         </div>
 
-        <div style={{ padding:'var(--space-8) var(--space-8) var(--space-10)', position:'relative', zIndex:1 }}>
+        <div style={{ padding:'clamp(var(--space-5), 4vw, var(--space-8))', position:'relative', zIndex:1 }}>
           <div style={{ fontSize:'var(--text-4xl)', marginBottom:'var(--space-2)', fontFamily:'serif' }}>ॐ</div>
-          <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-3xl)', color:'white', marginBottom:'var(--space-2)' }}>
+          <h1 style={{ fontFamily:'var(--font-heading)', fontSize:'clamp(1.6rem, 4vw, 2.2rem)', color:'white', marginBottom:'var(--space-2)' }}>
             Namaste, {name}
           </h1>
           <div style={{ display:'flex', alignItems:'center', gap:'var(--space-2)' }}>
@@ -84,7 +84,7 @@ export default function Dashboard() {
         <>
           <WeddingDivider label="Your Activity" style={{ marginBottom:'var(--space-6)' }} />
           <div style={{
-            display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',
+            display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(min(100%, 180px), 1fr))',
             gap:'var(--space-4)', marginBottom:'var(--space-8)',
           }}>
             {[
@@ -119,7 +119,7 @@ export default function Dashboard() {
       {/* Quick actions */}
       <WeddingDivider label="Quick Actions" style={{ marginBottom:'var(--space-6)' }} />
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(260px, 1fr))', gap:'var(--space-4)' }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap:'var(--space-4)' }}>
         {isApproved && (
           <Link to="/matches" style={{ textDecoration:'none' }}>
             <div className="card card-padded card-hover card-premium" style={{

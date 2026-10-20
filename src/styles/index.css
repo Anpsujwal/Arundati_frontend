@@ -173,6 +173,21 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   padding: 0 var(--space-6);
 }
+@media (max-width: 900px) {
+  .container {
+    padding: 0 var(--space-5);
+  }
+}
+@media (max-width: 640px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+}
+@media (max-width: 380px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
+}
 
 .text-center  { text-align: center; }
 .text-muted   { color: var(--color-text-muted); }
@@ -280,6 +295,23 @@ h1, h2, h3, h4, h5, h6 {
 .btn-lg  { padding: var(--space-4) var(--space-8); font-size: var(--text-base); }
 .btn-xl  { padding: var(--space-5) var(--space-10); font-size: var(--text-lg); }
 .btn-full { width: 100%; }
+
+@media (max-width: 640px) {
+  .btn-xl {
+    padding: var(--space-3) var(--space-6);
+    font-size: 0.95rem;
+  }
+  .btn-lg {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+  }
+  .btn-mobile-full {
+    width: 100%;
+  }
+  .card-padded {
+    padding: var(--space-4);
+  }
+}
 
 /* ── Input System ───────────────────────────────────────────── */
 .input-group {
@@ -522,14 +554,240 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ── Responsive Helpers ──────────────────────────────────────── */
-@media (max-width: 768px) {
+@media (max-width: 880px) {
   .hide-mobile { display: none !important; }
-  /* Reduce decorative elements on mobile */
+  /* Reduce decorative elements on mobile and tablet */
   .toran-wrap { display: none; }
   .floral-corner { display: none; }
 }
-@media (min-width: 769px) {
+@media (min-width: 881px) {
   .hide-desktop { display: none !important; }
+  .show-mobile { display: none !important; }
+}
+
+/* ── Responsive Grids & Layouts ─────────────────────────────── */
+.grid-2-col-responsive {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+@media (max-width: 860px) {
+  .grid-2-col-responsive {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+.grid-3-col-responsive {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+@media (max-width: 900px) {
+  .grid-3-col-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .grid-3-col-responsive {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Responsive Info Row ────────────────────────────────────── */
+.info-row-responsive {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: baseline;
+}
+.info-row-label {
+  min-width: 150px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.info-row-value {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  word-break: break-word;
+}
+@media (max-width: 640px) {
+  .info-row-responsive {
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-2) 0;
+  }
+  .info-row-label {
+    min-width: 0;
+    font-size: var(--text-xs);
+    color: var(--color-text-light);
+  }
+}
+
+/* ── Responsive Profile Header ──────────────────────────────── */
+.profile-header-responsive {
+  display: flex;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.profile-avatar-box {
+  width: 130px;
+  height: 130px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 3px solid rgba(196,147,42,0.40);
+  background: var(--color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-gold);
+}
+@media (max-width: 640px) {
+  .profile-header-responsive {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+  }
+  .profile-avatar-box {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+  }
+  .profile-header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Responsive Edit Profile Layout ─────────────────────────── */
+.edit-profile-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.edit-profile-tabs-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.edit-profile-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.edit-profile-card {
+  padding: var(--space-8);
+  position: relative;
+}
+@media (max-width: 900px) {
+  .edit-profile-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .edit-profile-tabs-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-2);
+    scrollbar-width: none;
+    gap: var(--space-2);
+  }
+  .edit-profile-tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .edit-profile-tab-btn {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+  }
+  .edit-profile-card {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+/* ── Responsive Admin Layout ────────────────────────────────── */
+.admin-layout-wrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  min-height: calc(100vh - var(--navbar-height));
+}
+.admin-sidebar {
+  width: var(--sidebar-width);
+  background: linear-gradient(to bottom, var(--color-surface), var(--color-surface-2));
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: sticky;
+  top: var(--navbar-height);
+  height: calc(100vh - var(--navbar-height));
+  overflow-y: auto;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+  z-index: 110;
+}
+.admin-main {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-x: auto;
+  min-width: 0;
+}
+.admin-backdrop {
+  display: none;
+}
+@media (max-width: 900px) {
+  .admin-sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    height: calc(100vh - var(--navbar-height));
+    box-shadow: 4px 0 24px rgba(74,14,34,0.25);
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .admin-sidebar.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .admin-backdrop.open {
+    display: block;
+    position: fixed;
+    inset: var(--navbar-height) 0 0 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 105;
+    backdrop-filter: blur(2px);
+  }
+  .admin-main {
+    padding: var(--space-4);
+  }
+}
+
+/* ── Responsive Table Helper ────────────────────────────────── */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Navbar Styles ───────────────────────────────────────────── */
@@ -550,6 +808,15 @@ h1, h2, h3, h4, h5, h6 {
     var(--color-primary) 75%,
     var(--color-primary-dark) 100%
   );
+}
+
+/* Mobile Nav Drawer animation */
+.mobile-nav-drawer {
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Kundali Chart Styling ───────────────────────────────────── */
@@ -591,6 +858,7 @@ h1, h2, h3, h4, h5, h6 {
   );
   position: relative;
   overflow: hidden;
+  padding: clamp(var(--space-12), 10vw, var(--space-24)) 0 clamp(var(--space-10), 8vw, var(--space-20));
 }
 .hero-wedding::before {
   content: '';
@@ -639,4 +907,9 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 8px;
   color: var(--color-gold);
   font-size: 14px;
+}
+@media (max-width: 640px) {
+  .ornamental-section {
+    padding: var(--space-5) var(--space-4);
+  }
 }

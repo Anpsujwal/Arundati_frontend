@@ -11,16 +11,82 @@ const STEPS = [
 ];
 
 export default function WizardProgress({ currentStep }) {
+  const currentStepData = STEPS.find((s) => s.num === currentStep) || STEPS[0];
+  const percentComplete = Math.round(((currentStep - 1) / (STEPS.length - 1)) * 100);
+
   return (
     <div style={{
       background: 'var(--color-surface)',
       borderBottom: '1px solid var(--color-border)',
-      padding: 'var(--space-4) 0',
-      marginBottom: 'var(--space-8)',
-      boxShadow: '0 2px 10px rgba(139,26,72,0.04)',
+      padding: 'var(--space-3) 0',
+      marginBottom: 'var(--space-6)',
+      boxShadow: '0 2px 10px rgba(139,26,74,0.04)',
     }}>
       <div className="container">
-        <div style={{
+        {/* Mobile & Tablet Compact View (<= 768px) */}
+        <div className="hide-desktop" style={{ padding: 'var(--space-1) 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <div>
+              <span style={{ fontSize: '11px', color: 'var(--color-gold-deep)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Step {currentStep} of {STEPS.length}
+              </span>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>
+                {currentStepData.label}
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: 'var(--color-leaf)',
+                background: 'rgba(45, 106, 63, 0.10)',
+                padding: '3px 8px',
+                borderRadius: 'var(--radius-full)',
+              }}>
+                {percentComplete}% Done
+              </span>
+            </div>
+          </div>
+
+          {/* Progress bar track */}
+          <div style={{ height: '6px', background: 'var(--color-surface-3)', borderRadius: '99px', overflow: 'hidden', marginBottom: '10px' }}>
+            <div style={{
+              width: `${Math.max(8, percentComplete)}%`,
+              height: '100%',
+              background: 'linear-gradient(90deg, var(--color-primary), var(--color-gold))',
+              borderRadius: '99px',
+              transition: 'width 0.4s ease',
+            }} />
+          </div>
+
+          {/* Compact step indicators */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
+            {STEPS.map((step) => {
+              const done = currentStep > step.num;
+              const active = currentStep === step.num;
+              return (
+                <div
+                  key={step.num}
+                  style={{
+                    flex: 1,
+                    height: '4px',
+                    borderRadius: '2px',
+                    background: done
+                      ? 'var(--color-leaf)'
+                      : active
+                      ? 'var(--color-gold)'
+                      : 'var(--color-border)',
+                    transition: 'all var(--transition-fast)',
+                  }}
+                  title={`Step ${step.num}: ${step.label}`}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Desktop Full View (> 768px) */}
+        <div className="hide-mobile" style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

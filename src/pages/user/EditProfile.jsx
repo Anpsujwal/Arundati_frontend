@@ -331,10 +331,10 @@ export default function EditProfile() {
       </div>
 
       {/* Main Grid: Sidebar Tabs + Content Area */}
-      <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 'var(--space-6)', alignItems: 'start' }}>
+      <div className="edit-profile-layout">
         {/* Navigation Sidebar */}
         <div className="card" style={{ padding: 'var(--space-2)', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+          <div className="edit-profile-tabs-nav">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -343,18 +343,9 @@ export default function EditProfile() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
+                  className="edit-profile-tab-btn"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-3)',
-                    padding: 'var(--space-3) var(--space-4)',
-                    borderRadius: 'var(--radius-md)',
-                    border: 'none',
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    fontSize: 'var(--text-sm)',
                     fontWeight: isActive ? 600 : 500,
-                    transition: 'all var(--transition-fast)',
                     background: isActive
                       ? tab.isDanger
                         ? 'var(--color-error-bg)'
@@ -381,7 +372,7 @@ export default function EditProfile() {
         </div>
 
         {/* Tab Content Area */}
-        <div className="card card-premium" style={{ padding: 'var(--space-8)', position: 'relative' }}>
+        <div className="card card-premium edit-profile-card">
           {/* Top subtle golden highlight */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))' }} />
 

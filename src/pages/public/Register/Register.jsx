@@ -104,7 +104,7 @@ export default function Register() {
 
       <div className="container" style={{ maxWidth: '780px', paddingBottom: 'var(--space-16)' }}>
         <div className="card card-premium" style={{ 
-          padding: 'var(--space-8)', 
+          padding: 'clamp(var(--space-4), 4vw, var(--space-8))', 
           boxShadow: 'var(--shadow-lg)',
           border: '1px solid rgba(196,147,42,0.25)',
           background: 'var(--color-surface)',

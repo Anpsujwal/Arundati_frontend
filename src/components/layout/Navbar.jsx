@@ -108,40 +108,138 @@ export default function Navbar() {
           </div>
 
           {/* Mobile hamburger */}
-          <button className="hide-desktop btn btn-ghost btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          <button
+            className="hide-desktop btn btn-ghost btn-sm"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation menu"
+            style={{ padding: '8px 10px' }}
+          >
+            {menuOpen ? <X size={22} color="var(--color-primary)" /> : <Menu size={22} color="var(--color-primary)" />}
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu drawer */}
         {menuOpen && (
-          <div className="hide-desktop" style={{
-            padding: 'var(--space-4)',
+          <div className="hide-desktop mobile-nav-drawer" style={{
+            padding: 'var(--space-3) var(--space-4) var(--space-5)',
             borderTop: '1px solid var(--color-border)',
-            display: 'flex', flexDirection: 'column', gap: 'var(--space-2)',
+            display: 'flex', flexDirection: 'column', gap: 'var(--space-1)',
             background: 'var(--color-surface)',
+            boxShadow: '0 8px 24px rgba(74,14,34,0.12)',
           }}>
             {user && !isAdmin && (
               <>
-                <Link to="/dashboard"  className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-                <Link to="/matches"    className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Find Matches</Link>
-                <Link to="/interests"  className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Interests</Link>
-                <Link to="/profile/me" className="btn btn-ghost" onClick={() => setMenuOpen(false)}>My Profile</Link>
+                <Link
+                  to="/dashboard"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>🏠</span> Dashboard
+                </Link>
+                <Link
+                  to="/matches"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>🔮</span> Find Matches
+                </Link>
+                <Link
+                  to="/interests"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>💌</span> Interests
+                </Link>
+                <Link
+                  to="/profile/me"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>👤</span> My Profile
+                </Link>
               </>
             )}
             {user && isAdmin && (
               <>
-                <Link to="/admin"         className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-                <Link to="/admin/pending" className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Pending</Link>
+                <Link
+                  to="/admin"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>📊</span> Dashboard
+                </Link>
+                <Link
+                  to="/admin/pending"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                    color: 'var(--color-text)', textDecoration: 'none',
+                    fontWeight: 500, fontSize: 'var(--text-sm)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span style={{ fontSize: '18px' }}>🛡️</span> Pending Verifications
+                </Link>
               </>
             )}
+
+            <div style={{ height: '1px', background: 'var(--color-border)', margin: 'var(--space-2) 0' }} />
+
             {user ? (
-              <button className="btn btn-outline" onClick={handleLogout}>Sign Out</button>
+              <button
+                className="btn btn-outline"
+                onClick={() => { setMenuOpen(false); handleLogout(); }}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  gap: 'var(--space-2)', padding: '12px', width: '100%',
+                }}
+              >
+                <LogOut size={16} /> Sign Out
+              </button>
             ) : (
-              <>
-                <Link to="/login"    className="btn btn-ghost"   onClick={() => setMenuOpen(false)}>Login</Link>
-                <Link to="/register" className="btn btn-primary" onClick={() => setMenuOpen(false)}>Register Free</Link>
-              </>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+                <Link
+                  to="/login"
+                  className="btn btn-outline"
+                  onClick={() => setMenuOpen(false)}
+                  style={{ padding: '12px', textAlign: 'center' }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn btn-primary"
+                  onClick={() => setMenuOpen(false)}
+                  style={{ padding: '12px', textAlign: 'center' }}
+                >
+                  Register Free
+                </Link>
+              </div>
             )}
           </div>
         )}

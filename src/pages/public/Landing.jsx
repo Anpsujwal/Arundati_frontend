@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Shield, Heart, Users, Star, CheckCircle, ArrowRight, Moon, Sparkles, BookOpen } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import MangoToran from '../../components/wedding-theme/MangoToran.jsx';
@@ -64,7 +64,7 @@ export default function Landing() {
       <Navbar />
 
       {/* ── Hero ────────────────────────────────────────────── */}
-      <section className="hero-wedding" style={{ padding: 'var(--space-24) 0 var(--space-20)' }}>
+      <section className="hero-wedding" style={{ padding: 'clamp(var(--space-12), 10vw, var(--space-24)) 0 clamp(var(--space-10), 8vw, var(--space-20))' }}>
         {/* Decorative radial glows */}
         <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '480px', height: '480px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(196,147,42,0.14) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
         <div style={{ position: 'absolute', bottom: '-60px', left: '-60px', width: '360px', height: '360px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
@@ -178,7 +178,7 @@ export default function Landing() {
       </section>
 
       {/* ── Features ────────────────────────────────────────── */}
-      <section style={{ padding: 'var(--space-24) 0' }}>
+      <section style={{ padding: 'clamp(var(--space-12), 8vw, var(--space-24)) 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
             <p style={{ color: 'var(--color-gold)', fontWeight: 600, letterSpacing: '3px', fontSize: 'var(--text-xs)', textTransform: 'uppercase', marginBottom: 'var(--space-3)' }}>
@@ -250,7 +250,7 @@ export default function Landing() {
       {/* ── Kundali Spotlight ───────────────────────────────── */}
       <section style={{
         background: 'linear-gradient(145deg, #3D0A1A 0%, var(--color-primary-dark) 50%, var(--color-primary) 100%)',
-        padding: 'var(--space-24) 0', position: 'relative', overflow: 'hidden',
+        padding: 'clamp(var(--space-12), 8vw, var(--space-24)) 0', position: 'relative', overflow: 'hidden',
       }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(196,147,42,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255,255,255,0.04) 0%, transparent 40%)', pointerEvents: 'none' }} />
 
@@ -325,7 +325,7 @@ export default function Landing() {
       </section>
 
       {/* ── How It Works ────────────────────────────────────── */}
-      <section style={{ background: 'var(--color-surface)', padding: 'var(--space-24) 0' }}>
+      <section style={{ background: 'var(--color-surface)', padding: 'clamp(var(--space-12), 8vw, var(--space-24)) 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
             <p style={{ color: 'var(--color-gold)', fontWeight: 600, letterSpacing: '3px', fontSize: 'var(--text-xs)', textTransform: 'uppercase', marginBottom: 'var(--space-3)' }}>
@@ -342,7 +342,7 @@ export default function Landing() {
             {HOW_IT_WORKS.map(({ step, title, desc, emoji }, i) => (
               <div key={step} style={{ textAlign: 'center', padding: 'var(--space-4)', position: 'relative' }}>
                 {i < HOW_IT_WORKS.length - 1 && (
-                  <div style={{
+                  <div className="hide-mobile" style={{
                     position: 'absolute', top: '28px', right: '-12px',
                     fontSize: '1.2rem', color: 'var(--color-gold)', opacity: 0.45, zIndex: 1,
                   }}>
@@ -377,7 +377,7 @@ export default function Landing() {
       {/* ── CTA ─────────────────────────────────────────────── */}
       <section style={{
         background: 'linear-gradient(145deg, var(--color-gold-faint) 0%, var(--color-primary-faint) 100%)',
-        padding: 'var(--space-24) 0', textAlign: 'center',
+        padding: 'clamp(var(--space-12), 8vw, var(--space-24)) 0', textAlign: 'center',
         borderTop: '1px solid var(--color-border)',
         position: 'relative', overflow: 'hidden',
       }}>
@@ -413,22 +413,28 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── Footer ──────────────────────────────────────────── */}
-      <footer className="footer-wedding" style={{ padding: 'var(--space-8) var(--space-6)', fontSize: 'var(--text-sm)' }}>
+      {/* ── Footer ──────────────────────────────────── */}
+      <footer className="footer-wedding" style={{ padding: 'var(--space-8) var(--space-4)', fontSize: 'var(--text-sm)' }}>
         {/* Mini toran on footer top */}
         <div className="toran-wrap" style={{ marginBottom: 'var(--space-4)', opacity: 0.5 }}>
           <MangoToran density="light" color="#4A8A5A" goldColor="#C4932A" />
         </div>
 
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+        <div className="container" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 'var(--space-4)',
+        }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <span style={{ fontSize: '1.6rem', fontFamily: 'serif' }}>ॐ</span>
             <span style={{ fontFamily: 'var(--font-heading)', color: 'rgba(255,255,255,0.85)', fontSize: 'var(--text-lg)' }}>Arundhati</span>
           </div>
-          <div style={{ textAlign: 'center', fontSize: 'var(--text-xs)' }}>
+          <div style={{ textAlign: 'center', fontSize: 'var(--text-xs)', maxWidth: '500px' }}>
             &copy; {new Date().getFullYear()} Arundhati &mdash; Brahmin Alliance Matrimony Platform. Built with respect for tradition and community values.
           </div>
-          <div style={{ display: 'flex', gap: 'var(--space-4)', fontSize: 'var(--text-xs)' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-3)', fontSize: 'var(--text-xs)', flexWrap: 'wrap' }}>
             <span>Kundali-Matched</span>
             <span>&middot;</span>
             <span>Gotra-Safe</span>

@@ -7,7 +7,7 @@ export default function UserLayout() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, padding: 'var(--space-8) 0' }}>
+      <main style={{ flex: 1, padding: 'clamp(var(--space-4), 3vw, var(--space-8)) 0' }}>
         <div className="container page-enter">
           <Outlet />
         </div>
@@ -29,7 +29,7 @@ export default function UserLayout() {
           background: 'linear-gradient(90deg, transparent, rgba(196,147,42,0.35), transparent)',
         }} />
 
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-3)' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '1rem', fontFamily: 'serif', color: 'var(--color-primary)', opacity: 0.6 }}>ॐ</span>
           <span>
             &copy; {new Date().getFullYear()} Arundhati — Brahmin Alliance Matrimony &middot; All rights reserved

@@ -17,9 +17,9 @@ function Section({ title, children }) {
 function InfoRow({ label, value }) {
   if (!value && value !== 0) return null;
   return (
-    <div style={{ display:'flex', gap:'var(--space-4)', padding:'var(--space-2) 0', borderBottom:'1px solid var(--color-border)' }}>
-      <span style={{ minWidth:180, color:'var(--color-text-muted)', fontSize:'var(--text-sm)', fontWeight:500 }}>{label}</span>
-      <span style={{ fontSize:'var(--text-sm)' }}>{String(value)}</span>
+    <div className="info-row-responsive">
+      <span className="info-row-label">{label}</span>
+      <span className="info-row-value">{String(value)}</span>
     </div>
   );
 }
@@ -257,7 +257,7 @@ export default function ProfileReview() {
         </div>
       )}
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-6)' }}>
+      <div className="grid-2-col-responsive">
         <div>
           <Section title="Personal Information">
             <InfoRow label="Full Name" value={`${data.first_name} ${data.surname}`} />
