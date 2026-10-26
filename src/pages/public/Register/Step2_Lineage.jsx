@@ -17,11 +17,30 @@ export default function Step2Lineage({ onNext, onBack }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    refApi.gotras().then((r) => setGotras(r.data.data));
-    refApi.subsects().then((r) => setSubsects(r.data.data));
+    refApi.gotras().then((r) => setGotras(r.data.data)).catch(() => {});
+    refApi.subsects().then((r) => setSubsects(r.data.data)).catch(() => {});
+    profileApi.me().then((r) => {
+      const p = r.data.data?.profile;
+      if (p) {
+        setForm((prev) => ({
+          ...prev,
+          sub_sect: p.sub_sect || '',
+          gotra: p.gotra || '',
+          pravara: p.pravara || '',
+          maternal_gotra: p.maternal_gotra || '',
+          maternal_inti_peru: p.maternal_inti_peru || '',
+          veda: p.veda || '',
+          shakha: p.shakha || '',
+          native_place: p.native_place || '',
+        }));
+      }
+    }).catch(() => {});
   }, []);
 
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k, v) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    if (errors[k]) setErrors((e) => ({ ...e, [k]: null }));
+  };
 
   const filteredGotras = gotraSearch
     ? gotras.filter((g) => g.toLowerCase().includes(gotraSearch.toLowerCase()))
@@ -29,14 +48,18 @@ export default function Step2Lineage({ onNext, onBack }) {
 
   const validate = () => {
     const e = {};
-    if (!form.gotra) e.gotra = 'Gotra is required — it is used for compatibility matching.';
+    if (!form.sub_sect) e.sub_sect = 'Sub-Sect is required.';
+    if (!form.gotra) e.gotra = 'Gotra is required — it is essential for Gotra compatibility.';
     setErrors(e);
-    return !e.gotra;
+    return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      toast.error('Please fill all mandatory fields marked with *');
+      return;
+    }
     setLoading(true);
     try {
       await profileApi.step2(form);
@@ -51,18 +74,19 @@ export default function Step2Lineage({ onNext, onBack }) {
     <div>
       <h2 className="section-title">Step 2 — Lineage &amp; Ancestry</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-        Your lineage details are at the heart of Brahmin matchmaking. Gotra is mandatory.
+        Your lineage details are at the heart of Brahmin matchmaking. Fields marked with <span className="required">*</span> are mandatory.
       </p>
 
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
           {/* Sub-Sect */}
           <div className="input-group">
-            <label className="input-label" htmlFor="sub_sect">Sub-Sect</label>
-            <select id="sub_sect" className="select" value={form.sub_sect} onChange={(e) => set('sub_sect', e.target.value)}>
+            <label className="input-label" htmlFor="sub_sect">Sub-Sect <span className="required">*</span></label>
+            <select id="sub_sect" className={`select ${errors.sub_sect ? 'error' : ''}`} value={form.sub_sect} onChange={(e) => set('sub_sect', e.target.value)}>
               <option value="">Select sub-sect</option>
               {subsects.map((s) => <option key={s}>{s}</option>)}
             </select>
+            {errors.sub_sect && <p className="input-error-msg">{errors.sub_sect}</p>}
           </div>
 
           {/* Gotra — searchable dropdown */}

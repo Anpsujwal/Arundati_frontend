@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Lock } from 'lucide-react';
 import { profileApi } from '../../../api/profile.api';
 import { getErrorMessage } from '../../../utils/format.utils';
@@ -68,14 +68,66 @@ export default function Step5Family({ onNext, onBack }) {
     elder_ref_2_name: '', elder_ref_2_phone: '', elder_ref_2_address: '', elder_ref_2_occupation: '',
     elder_ref_3_name: '', elder_ref_3_phone: '', elder_ref_3_address: '', elder_ref_3_occupation: '',
   });
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+
+  useEffect(() => {
+    profileApi.me().then((r) => {
+      const fam = r.data.data?.family;
+      if (fam) {
+        setForm((prev) => ({
+          ...prev,
+          father_name: fam.father_name || '',
+          father_occupation: fam.father_occupation || '',
+          mother_name: fam.mother_name || '',
+          mother_maiden_inti_peru: fam.mother_maiden_inti_peru || '',
+          sibling_count: fam.sibling_count != null ? String(fam.sibling_count) : '',
+          elder_ref_1_name: fam.elder_ref_1_name || '',
+          elder_ref_1_phone: fam.elder_ref_1_phone || '',
+          elder_ref_1_address: fam.elder_ref_1_address || '',
+          elder_ref_1_occupation: fam.elder_ref_1_occupation || '',
+          elder_ref_2_name: fam.elder_ref_2_name || '',
+          elder_ref_2_phone: fam.elder_ref_2_phone || '',
+          elder_ref_2_address: fam.elder_ref_2_address || '',
+          elder_ref_2_occupation: fam.elder_ref_2_occupation || '',
+          elder_ref_3_name: fam.elder_ref_3_name || '',
+          elder_ref_3_phone: fam.elder_ref_3_phone || '',
+          elder_ref_3_address: fam.elder_ref_3_address || '',
+          elder_ref_3_occupation: fam.elder_ref_3_occupation || '',
+        }));
+      }
+    }).catch(() => {});
+  }, []);
+
+  const set = (k, v) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    if (errors[k]) setErrors((e) => ({ ...e, [k]: null }));
+  };
+
+  const err = (k) => errors[k] && <p className="input-error-msg">{errors[k]}</p>;
+
+  const validate = () => {
+    const e = {};
+    if (!form.father_name || !form.father_name.trim()) e.father_name = "Father's name is required.";
+    if (!form.mother_name || !form.mother_name.trim()) e.mother_name = "Mother's name is required.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) {
+      toast.error('Please fill all mandatory fields marked with *');
+      return;
+    }
     setLoading(true);
     try {
-      await profileApi.step5({ ...form, sibling_count: form.sibling_count ? parseInt(form.sibling_count, 10) : 0 });
+      await profileApi.step5({
+        ...form,
+        father_name: form.father_name.trim(),
+        mother_name: form.mother_name.trim(),
+        sibling_count: form.sibling_count ? parseInt(form.sibling_count, 10) : 0,
+      });
       toast.success('Family information saved!');
       onNext();
     } catch (err) {
@@ -87,7 +139,7 @@ export default function Step5Family({ onNext, onBack }) {
     <div>
       <h2 className="section-title">Step 5 — Family &amp; Elder References</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>
-        Family information and elder references are an important part of Brahmin matchmaking traditions.
+        Family information and elder references are an important part of Brahmin matchmaking traditions. Fields marked with <span className="required">*</span> are mandatory.
       </p>
 
       <div className="alert alert-warning" style={{ marginBottom: 'var(--space-6)' }}>
@@ -101,19 +153,21 @@ export default function Step5Family({ onNext, onBack }) {
         </h3>
         <div className="form-grid">
           <div className="input-group">
-            <label className="input-label" htmlFor="father_name">Father's Name</label>
-            <input id="father_name" type="text" className="input" value={form.father_name}
-              onChange={(e) => set('father_name', e.target.value)} />
+            <label className="input-label" htmlFor="father_name">Father's Name <span className="required">*</span></label>
+            <input id="father_name" type="text" className={`input ${errors.father_name ? 'error' : ''}`} value={form.father_name}
+              onChange={(e) => set('father_name', e.target.value)} placeholder="Full name of father" />
+            {err('father_name')}
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="father_occupation">Father's Occupation</label>
             <input id="father_occupation" type="text" className="input" value={form.father_occupation}
-              onChange={(e) => set('father_occupation', e.target.value)} />
+              onChange={(e) => set('father_occupation', e.target.value)} placeholder="e.g. Government Officer, Professor" />
           </div>
           <div className="input-group">
-            <label className="input-label" htmlFor="mother_name">Mother's Name</label>
-            <input id="mother_name" type="text" className="input" value={form.mother_name}
-              onChange={(e) => set('mother_name', e.target.value)} />
+            <label className="input-label" htmlFor="mother_name">Mother's Name <span className="required">*</span></label>
+            <input id="mother_name" type="text" className={`input ${errors.mother_name ? 'error' : ''}`} value={form.mother_name}
+              onChange={(e) => set('mother_name', e.target.value)} placeholder="Full name of mother" />
+            {err('mother_name')}
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="mother_maiden_inti_peru">Mother's Maiden Inti Peru</label>
@@ -123,7 +177,7 @@ export default function Step5Family({ onNext, onBack }) {
           <div className="input-group">
             <label className="input-label" htmlFor="sibling_count">Number of Siblings</label>
             <input id="sibling_count" type="number" className="input" value={form.sibling_count}
-              min={0} max={20} onChange={(e) => set('sibling_count', e.target.value)} />
+              min={0} max={20} onChange={(e) => set('sibling_count', e.target.value)} placeholder="0" />
           </div>
         </div>
 
@@ -132,7 +186,7 @@ export default function Step5Family({ onNext, onBack }) {
           Elder References (Vicharana)
         </h3>
         <p style={{ color:'var(--color-text-light)', fontSize:'var(--text-xs)', marginBottom:'var(--space-4)' }}>
-          Provide up to 3 elder references (e.g. uncle, family elder, community leader). All fields are optional.
+          Provide up to 3 elder references (e.g. uncle, family elder, community leader). All reference fields are optional.
         </p>
 
         <ElderRefBlock index={1} prefix="elder_ref_1" form={form} set={set} />
@@ -142,6 +196,7 @@ export default function Step5Family({ onNext, onBack }) {
         <div style={{ display:'flex', justifyContent:'space-between', marginTop:'var(--space-8)' }}>
           <button type="button" className="btn btn-ghost btn-lg" onClick={onBack}>← Back</button>
           <button id="step5-next" type="submit" className="btn btn-primary btn-lg" disabled={loading}>
+            {loading ? <span className="spinner spinner-sm" style={{ borderTopColor:'white' }} /> : null}
             {loading ? 'Saving…' : 'Continue to Photos →'}
           </button>
         </div>

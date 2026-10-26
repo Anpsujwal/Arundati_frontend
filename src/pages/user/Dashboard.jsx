@@ -60,7 +60,7 @@ export default function Dashboard() {
           <div>
             <strong>Profile Under Verification</strong>
             <p style={{ marginTop:'var(--space-1)', fontSize:'var(--text-sm)' }}>
-              Our team is reviewing your Government ID. This typically takes 24–48 hours.
+              Our team is reviewing your profile details. This typically takes 24–48 hours.
               You will have full access to matchmaking features once approved.
             </p>
           </div>
@@ -145,18 +145,18 @@ export default function Dashboard() {
             <div style={{ fontSize:'var(--text-3xl)', marginBottom:'var(--space-3)' }}>👤</div>
             <h3 style={{ fontFamily:'var(--font-heading)', fontSize:'var(--text-xl)' }}>My Profile</h3>
             <p style={{ color:'var(--color-text-muted)', fontSize:'var(--text-sm)', marginTop:'var(--space-2)' }}>
-              {profile?.registration_step < 6
-                ? `Complete your registration (Step ${(profile?.registration_step || 0) + 1}/6)`
+              {profile?.registration_step < 7
+                ? `Complete your registration (Step ${(profile?.registration_step || 0) + 1}/7)`
                 : 'View and update your profile information.'}
             </p>
-            {profile?.registration_step < 6 && (
+            {profile?.registration_step < 7 && (
               <div style={{
                 marginTop:'var(--space-3)',
                 background:'var(--color-border)', borderRadius:'var(--radius-full)',
                 height:'6px', overflow:'hidden',
               }}>
                 <div style={{
-                  width:`${((profile?.registration_step || 0) / 6) * 100}%`,
+                  width:`${((profile?.registration_step || 0) / 7) * 100}%`,
                   height:'100%',
                   background:'linear-gradient(90deg, var(--color-primary), var(--color-gold))',
                   borderRadius:'var(--radius-full)',

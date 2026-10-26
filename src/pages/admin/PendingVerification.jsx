@@ -21,7 +21,7 @@ export default function PendingVerification() {
           Pending Verification
         </h1>
         <p style={{ color:'var(--color-text-muted)', marginTop:'var(--space-1)' }}>
-          {profiles.length} profile{profiles.length !== 1 ? 's' : ''} awaiting Government ID review
+          {profiles.length} profile{profiles.length !== 1 ? 's' : ''} awaiting profile review
         </p>
         <WeddingDivider size="sm" style={{ margin: 'var(--space-3) 0' }} />
       </div>
@@ -50,9 +50,8 @@ export default function PendingVerification() {
                 </div>
                 <div style={{ fontSize:'var(--text-xs)', color:'var(--color-text-light)', marginTop:'var(--space-1)' }}>
                   Submitted: {formatDate(p.created_at)}
-                  {' · '} Profile step: {p.registration_step}/6
+                  {' · '} Profile step: {p.registration_step}/7
                   {p.has_gov_id && <span style={{ marginLeft:'var(--space-2)', color:'var(--color-success)', fontWeight:600 }}>✓ Gov ID uploaded</span>}
-                  {!p.has_gov_id && <span style={{ marginLeft:'var(--space-2)', color:'var(--color-error)' }}>⚠ No Gov ID</span>}
                 </div>
               </div>
 

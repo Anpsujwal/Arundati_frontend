@@ -100,7 +100,7 @@ export default function Register() {
         </div>
       </div>
 
-      <WizardProgress currentStep={currentStep} />
+      <WizardProgress currentStep={currentStep} onStepClick={(s) => setCurrentStep(s)} />
 
       <div className="container" style={{ maxWidth: '780px', paddingBottom: 'var(--space-16)' }}>
         <div className="card card-premium" style={{ 
@@ -115,7 +115,7 @@ export default function Register() {
           {currentStep === 4 && <Step4Education onNext={goNext} onBack={goBack} />}
           {currentStep === 5 && <Step5Family onNext={goNext} onBack={goBack} />}
           {currentStep === 6 && <Step6Photos onComplete={goNext} onBack={goBack} />}
-          {currentStep === 7 && <Step7Preferences onComplete={handleComplete} onBack={goBack} />}
+          {currentStep === 7 && <Step7Preferences onComplete={handleComplete} onBack={goBack} onGoToStep={(s) => setCurrentStep(s)} />}
         </div>
       </div>
     </div>

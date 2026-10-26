@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Upload, X, FileText, ImageIcon } from 'lucide-react';
 import { profileApi } from '../../../api/profile.api';
 import { getErrorMessage, photoUrl } from '../../../utils/format.utils';
@@ -7,7 +7,22 @@ import toast from 'react-hot-toast';
 export default function Step6Photos({ onComplete, onBack }) {
   const [photos, setPhotos] = useState([]); // { file, preview, id, uploaded }
   const [kundliFile, setKundliFile] = useState(null);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    profileApi.me().then((r) => {
+      const existingPhotos = r.data.data?.photos || [];
+      if (existingPhotos.length > 0) {
+        setPhotos(existingPhotos.map((p) => ({
+          id: p.photo_id,
+          preview: photoUrl(p.filename),
+          uploaded: true,
+          is_primary: p.is_primary === 1,
+        })));
+      }
+    }).catch(() => {});
+  }, []);
 
   const handlePhotoSelect = (e) => {
     const files = Array.from(e.target.files);
@@ -18,16 +33,31 @@ export default function Step6Photos({ onComplete, onBack }) {
       uploaded: false,
     }));
     setPhotos((p) => [...p, ...toAdd]);
+    setError('');
   };
 
-  const removePhoto = (idx) => {
+  const removePhoto = async (idx) => {
+    const photoToRemove = photos[idx];
+    if (photoToRemove.uploaded && photoToRemove.id) {
+      try {
+        await profileApi.deletePhoto(photoToRemove.id);
+        toast.success('Photo removed');
+      } catch (err) {
+        toast.error('Could not delete photo from server');
+      }
+    }
     setPhotos((p) => p.filter((_, i) => i !== idx));
   };
 
   const handleComplete = async () => {
+    if (photos.length === 0) {
+      setError('At least 1 profile photo is required.');
+      toast.error('Please upload at least 1 profile photo before proceeding.');
+      return;
+    }
     setLoading(true);
     try {
-      // Upload photos
+      // Upload any new photos
       for (const p of photos.filter((p) => !p.uploaded)) {
         await profileApi.uploadPhoto(p.file);
       }
@@ -35,8 +65,7 @@ export default function Step6Photos({ onComplete, onBack }) {
       if (kundliFile) {
         await profileApi.uploadDocument(kundliFile, 'kundli_pdf');
       }
-      // Step 6 finalization happens in Step 7 (Preferences)
-      toast.success('Photos saved! One more step to go.');
+      toast.success('Photos saved!');
       onComplete(); // advances to Step 7
     } catch (err) {
       toast.error(getErrorMessage(err));
@@ -47,13 +76,13 @@ export default function Step6Photos({ onComplete, onBack }) {
     <div>
       <h2 className="section-title">Step 6 — Photos &amp; Horoscope</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-        Upload your profile photos and optionally your Kundli PDF.
+        Upload your profile photos and optionally your Kundli PDF. At least 1 profile photo is <span className="required">* mandatory</span>.
       </p>
 
       {/* Photo upload */}
       <div style={{ marginBottom: 'var(--space-6)' }}>
         <label className="input-label" style={{ marginBottom: 'var(--space-3)', display: 'block' }}>
-          Profile Photos (Up to 5)
+          Profile Photos (Up to 5) <span className="required">*</span>
         </label>
 
         {photos.length > 0 && (
@@ -62,7 +91,7 @@ export default function Step6Photos({ onComplete, onBack }) {
             gap: 'var(--space-3)', marginBottom: 'var(--space-4)',
           }}>
             {photos.map((p, idx) => (
-              <div key={idx} style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', aspectRatio: '1' }}>
+              <div key={idx} style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', aspectRatio: '1', border: '1px solid var(--color-border)' }}>
                 <img src={p.preview} alt={`Photo ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 {idx === 0 && (
                   <div style={{
@@ -76,12 +105,13 @@ export default function Step6Photos({ onComplete, onBack }) {
                   onClick={() => removePhoto(idx)}
                   style={{
                     position: 'absolute', top: '4px', right: '4px',
-                    background: 'rgba(0,0,0,0.5)', border: 'none',
+                    background: 'rgba(0,0,0,0.6)', border: 'none',
                     borderRadius: '50%', cursor: 'pointer', color: 'white',
                     display: 'flex', padding: '3px',
                   }}
+                  title="Remove photo"
                 >
-                  <X size={12} />
+                  <X size={14} />
                 </button>
               </div>
             ))}
@@ -91,14 +121,14 @@ export default function Step6Photos({ onComplete, onBack }) {
         {photos.length < 5 && (
           <div
             style={{
-              border: '2px dashed var(--color-border)', borderRadius: 'var(--radius-md)',
+              border: `2px dashed ${error ? 'var(--color-error)' : 'var(--color-border)'}`, borderRadius: 'var(--radius-md)',
               padding: 'var(--space-8)', textAlign: 'center', cursor: 'pointer',
               background: 'var(--color-surface-2)', transition: 'all var(--transition-fast)',
             }}
             onClick={() => document.getElementById('photo-input').click()}
           >
-            <ImageIcon size={32} color="var(--color-text-light)" style={{ margin: '0 auto var(--space-2)' }} />
-            <p style={{ fontWeight: 500, color: 'var(--color-text-muted)' }}>Click to add photos</p>
+            <ImageIcon size={32} color={error ? 'var(--color-error)' : 'var(--color-text-light)'} style={{ margin: '0 auto var(--space-2)' }} />
+            <p style={{ fontWeight: 500, color: 'var(--color-text-muted)' }}>Click to add photos <span className="required">*</span></p>
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-light)', marginTop: 'var(--space-1)' }}>
               JPG, PNG, WebP · Max 5 MB each · Up to {5 - photos.length} more
             </p>
@@ -106,6 +136,7 @@ export default function Step6Photos({ onComplete, onBack }) {
               multiple style={{ display:'none' }} onChange={handlePhotoSelect} />
           </div>
         )}
+        {error && <p className="input-error-msg" style={{ marginTop: 'var(--space-2)' }}>{error}</p>}
       </div>
 
       {/* Kundli PDF */}

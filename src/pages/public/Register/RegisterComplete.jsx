@@ -74,10 +74,10 @@ export default function RegisterComplete() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
             <Clock size={18} color="var(--color-gold)" />
-            <strong style={{ color: 'var(--color-primary)' }}>Next Step: Identity Verification</strong>
+            <strong style={{ color: 'var(--color-primary)' }}>Next Step: Profile Verification</strong>
           </div>
           <ul style={{ paddingLeft: 'var(--space-5)', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', lineHeight: 2 }}>
-            <li>Our team will verify your submitted identity documentation</li>
+            <li>Our administrative panel will review your submitted profile and lineage details</li>
             <li>Verification typically completes within 24–48 hours</li>
             <li>Kundali matching &amp; full profile browsing will unlock upon approval</li>
             <li>Your privacy and Gotra confidentiality are strictly protected</li>

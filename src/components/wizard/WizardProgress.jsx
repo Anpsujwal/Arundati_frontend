@@ -10,7 +10,7 @@ const STEPS = [
   { num: 7, label: 'Preferences' },
 ];
 
-export default function WizardProgress({ currentStep }) {
+export default function WizardProgress({ currentStep, onStepClick }) {
   const currentStepData = STEPS.find((s) => s.num === currentStep) || STEPS[0];
   const percentComplete = Math.round(((currentStep - 1) / (STEPS.length - 1)) * 100);
 
@@ -67,10 +67,12 @@ export default function WizardProgress({ currentStep }) {
               return (
                 <div
                   key={step.num}
+                  onClick={() => onStepClick && onStepClick(step.num)}
                   style={{
                     flex: 1,
-                    height: '4px',
-                    borderRadius: '2px',
+                    height: '8px',
+                    borderRadius: '4px',
+                    cursor: onStepClick ? 'pointer' : 'default',
                     background: done
                       ? 'var(--color-leaf)'
                       : active
@@ -99,7 +101,17 @@ export default function WizardProgress({ currentStep }) {
             const active = currentStep === step.num;
             return (
               <div key={step.num} style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-1)' }}>
+                <div
+                  onClick={() => onStepClick && onStepClick(step.num)}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 'var(--space-1)',
+                    cursor: onStepClick ? 'pointer' : 'default',
+                    padding: '0 4px',
+                  }}
+                >
                   <div style={{
                     width: '38px', height: '38px',
                     borderRadius: '50%',

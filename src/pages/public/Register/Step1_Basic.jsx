@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Eye, EyeOff, Upload } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { profileApi } from '../../../api/profile.api';
 import { getErrorMessage } from '../../../utils/format.utils';
 import toast from 'react-hot-toast';
@@ -12,46 +12,84 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
     marital_status: 'Never Married',
     profile_managed_by: 'Self',
   });
-  const [govIdFile, setGovIdFile] = useState(null);
   const [showPw, setShowPw] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  useEffect(() => {
+    if (alreadyRegistered) {
+      profileApi.me().then((r) => {
+        const p = r.data.data?.profile;
+        const u = r.data.data?.user;
+        if (p) {
+          setForm((prev) => ({
+            ...prev,
+            first_name: p.first_name || '',
+            surname: p.surname || '',
+            gender: p.gender || '',
+            date_of_birth: p.date_of_birth ? p.date_of_birth.split('T')[0] : '',
+            marital_status: p.marital_status || 'Never Married',
+            profile_managed_by: u?.profile_managed_by || prev.profile_managed_by || 'Self',
+          }));
+        }
+      }).catch(() => {});
+    }
+  }, [alreadyRegistered]);
+
+  const set = (k, v) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    if (errors[k]) setErrors((e) => ({ ...e, [k]: null }));
+  };
+
   const err = (k) => errors[k] && <p className="input-error-msg">{errors[k]}</p>;
 
   const validate = () => {
     const e = {};
     if (!alreadyRegistered) {
-      if (!form.email) e.email = 'Email is required.';
+      if (!form.email || !form.email.trim()) e.email = 'Email address is required.';
       if (!form.password || form.password.length < 8) e.password = 'Password must be at least 8 characters.';
-      if (!/[A-Z]/.test(form.password)) e.password = 'Password needs an uppercase letter.';
-      if (!/[0-9]/.test(form.password)) e.password = 'Password needs a number.';
+      if (!/[A-Z]/.test(form.password || '')) e.password = 'Password needs an uppercase letter.';
+      if (!/[0-9]/.test(form.password || '')) e.password = 'Password needs a number.';
       if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords do not match.';
     }
-    if (!form.first_name.trim()) e.first_name = 'First name is required.';
+    if (!form.first_name || !form.first_name.trim()) e.first_name = 'First name is required.';
+    if (!form.surname || !form.surname.trim()) e.surname = 'Surname / Inti Peru is required.';
     if (!form.gender) e.gender = 'Please select gender.';
-    if (!form.date_of_birth) e.date_of_birth = 'Date of birth is required.';
-    if (!govIdFile) e.gov_id = 'Government ID is required for verification.';
+    if (!form.date_of_birth) {
+      e.date_of_birth = 'Date of birth is required.';
+    } else {
+      const birthDate = new Date(form.date_of_birth);
+      const minAgeDate = new Date();
+      minAgeDate.setFullYear(minAgeDate.getFullYear() - 18);
+      if (birthDate > minAgeDate) {
+        e.date_of_birth = 'Must be at least 18 years of age.';
+      }
+    }
+    if (!form.marital_status) e.marital_status = 'Please select marital status.';
+    if (!form.profile_managed_by) e.profile_managed_by = 'Please select who manages this profile.';
+
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      toast.error('Please fill all mandatory fields marked with *');
+      return;
+    }
     setLoading(true);
     try {
-      await onComplete(form); // Register account
+      await onComplete(form); // Register account if not registered
       // Save profile data
       await profileApi.step1({
-        first_name: form.first_name, surname: form.surname,
-        gender: form.gender, date_of_birth: form.date_of_birth,
+        first_name: form.first_name.trim(),
+        surname: form.surname.trim(),
+        gender: form.gender,
+        date_of_birth: form.date_of_birth,
         marital_status: form.marital_status,
         profile_managed_by: form.profile_managed_by,
       });
-      // Upload gov ID
-      if (govIdFile) await profileApi.uploadDocument(govIdFile, 'gov_id');
       toast.success('Basic information saved!');
     } catch (err) {
       toast.error(getErrorMessage(err));
@@ -64,7 +102,7 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
     <div>
       <h2 className="section-title">Step 1 — Basic Information</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-        Let's start with your account credentials and basic personal details.
+        Let's start with your account credentials and mandatory personal details. All fields marked with <span className="required">*</span> are mandatory.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -121,9 +159,10 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
             {err('first_name')}
           </div>
           <div className="input-group">
-            <label className="input-label" htmlFor="surname">Surname / Inti Peru</label>
-            <input id="surname" type="text" className="input"
+            <label className="input-label" htmlFor="surname">Surname / Inti Peru <span className="required">*</span></label>
+            <input id="surname" type="text" className={`input ${errors.surname ? 'error' : ''}`}
               value={form.surname} onChange={(e) => set('surname', e.target.value)} placeholder="e.g. Sharma" />
+            {err('surname')}
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="gender">Gender <span className="required">*</span></label>
@@ -144,16 +183,17 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="marital_status">Marital Status <span className="required">*</span></label>
-            <select id="marital_status" className="select"
+            <select id="marital_status" className={`select ${errors.marital_status ? 'error' : ''}`}
               value={form.marital_status} onChange={(e) => set('marital_status', e.target.value)}>
               <option>Never Married</option>
               <option>Divorced</option>
               <option>Widowed</option>
             </select>
+            {err('marital_status')}
           </div>
           <div className="input-group">
             <label className="input-label" htmlFor="profile_managed_by">Profile Managed By <span className="required">*</span></label>
-            <select id="profile_managed_by" className="select"
+            <select id="profile_managed_by" className={`select ${errors.profile_managed_by ? 'error' : ''}`}
               value={form.profile_managed_by} onChange={(e) => set('profile_managed_by', e.target.value)}>
               <option>Self</option>
               <option>Parent</option>
@@ -161,47 +201,8 @@ export default function Step1Basic({ onComplete, alreadyRegistered }) {
               <option>Joint</option>
               <option>Relative</option>
             </select>
+            {err('profile_managed_by')}
           </div>
-        </div>
-
-        {/* Gov ID Upload */}
-        <div style={{ marginTop: 'var(--space-6)' }}>
-          <label className="input-label" style={{ marginBottom: 'var(--space-2)', display: 'block' }}>
-            Government ID <span className="required">*</span>
-          </label>
-          <div style={{
-            border: `2px dashed ${errors.gov_id ? 'var(--color-error)' : 'var(--color-border)'}`,
-            borderRadius: 'var(--radius-md)',
-            padding: 'var(--space-6)',
-            textAlign: 'center',
-            cursor: 'pointer',
-            background: govIdFile ? 'var(--color-success-bg)' : 'var(--color-surface-2)',
-            transition: 'all var(--transition-fast)',
-          }}
-            onClick={() => document.getElementById('gov-id-input').click()}
-          >
-            <Upload size={28} color={govIdFile ? 'var(--color-success)' : 'var(--color-text-light)'} style={{ margin: '0 auto var(--space-2)' }} />
-            {govIdFile ? (
-              <p style={{ color: 'var(--color-success)', fontWeight: 500 }}>✓ {govIdFile.name}</p>
-            ) : (
-              <>
-                <p style={{ fontWeight: 500, color: 'var(--color-text-muted)' }}>Click to upload Government ID</p>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-light)', marginTop: 'var(--space-1)' }}>
-                  Aadhar, PAN, Passport, or Driving License · JPG, PNG, PDF · Max 10 MB
-                </p>
-              </>
-            )}
-            <input
-              id="gov-id-input" type="file"
-              accept="image/jpeg,image/png,application/pdf"
-              style={{ display: 'none' }}
-              onChange={(e) => setGovIdFile(e.target.files[0] || null)}
-            />
-          </div>
-          {err('gov_id')}
-          <p className="input-hint" style={{ marginTop: 'var(--space-1)' }}>
-            Your ID is encrypted and visible only to our verification team. It will never be publicly displayed.
-          </p>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-8)' }}>

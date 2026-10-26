@@ -14,8 +14,8 @@ const FEATURES = [
   },
   {
     icon: Shield,
-    title: 'Government ID Verified',
-    desc: 'Every profile is reviewed with a government-issued ID by our administration team before it becomes visible to any match.',
+    title: 'Admin Profile Verification',
+    desc: 'Every profile is carefully reviewed and verified by our administration team before it becomes visible to any match.',
     highlight: false,
   },
   {
@@ -44,16 +44,11 @@ const FEATURES = [
   },
 ];
 
-const STATS = [
-  { label: 'Verified Profiles', value: '2,400+' },
-  { label: 'Successful Alliances', value: '380+' },
-  { label: 'Brahmin Gotras', value: '40+' },
-  { label: 'Years of Tradition', value: '5,000+' },
-];
+const STATS = [];
 
 const HOW_IT_WORKS = [
   { step: '01', title: 'Register & Build Profile', desc: 'Complete the guided wizard: personal details, lineage, astrology birth data, and family information.', emoji: '📋' },
-  { step: '02', title: 'ID Verification', desc: 'Our team reviews your Government ID within 24–48 hours and approves your profile for the community.', emoji: '✅' },
+  { step: '02', title: 'Profile Verification', desc: 'Our team reviews your profile information within 24–48 hours and approves your profile for the community.', emoji: '✅' },
   { step: '03', title: 'Kundali Generated', desc: 'Our Vedic astrology engine automatically generates your Kundali — Lagna, Rashi, Nakshatra and planetary positions.', emoji: '🔯' },
   { step: '04', title: 'Discover Sacred Matches', desc: 'Browse ranked, Gotra-safe, Kundali-compatible profiles. See your Guna Milan score for every match.', emoji: '💞' },
 ];
@@ -139,7 +134,7 @@ export default function Landing() {
             display: 'flex', gap: 'var(--space-6)', justifyContent: 'center',
             marginTop: 'var(--space-12)', flexWrap: 'wrap',
           }}>
-            {['Government ID Verified', 'Kundali Auto-Generated', 'Gotra-Safe Algorithm', 'Elder References Collected'].map((t) => (
+            {['Admin Profile Verified', 'Kundali Auto-Generated', 'Gotra-Safe Algorithm', 'Elder References Collected'].map((t) => (
               <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', opacity: 0.82, fontSize: 'var(--text-sm)' }}>
                 <CheckCircle size={15} color="var(--color-gold-light)" />
                 {t}
@@ -156,26 +151,28 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ── Stats ───────────────────────────────────────────── */}
-      <section style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-border)', padding: 'var(--space-12) 0' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 'var(--space-6)', textAlign: 'center' }}>
-            {STATS.map(({ value, label }) => (
-              <div key={label} style={{ padding: 'var(--space-4) 0' }}>
-                <div className="stat-value-gradient" style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 'var(--text-4xl)', fontWeight: 700, lineHeight: 1.1,
-                }}>
-                  {value}
+      {/* ── Stats (rendered only if stats are provided) ────────────────── */}
+      {STATS.length > 0 && (
+        <section style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-border)', padding: 'var(--space-12) 0' }}>
+          <div className="container">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 'var(--space-6)', textAlign: 'center' }}>
+              {STATS.map(({ value, label }) => (
+                <div key={label} style={{ padding: 'var(--space-4) 0' }}>
+                  <div className="stat-value-gradient" style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: 'var(--text-4xl)', fontWeight: 700, lineHeight: 1.1,
+                  }}>
+                    {value}
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)', fontWeight: 500 }}>
+                    {label}
+                  </div>
                 </div>
-                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)', fontWeight: 500 }}>
-                  {label}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Features ────────────────────────────────────────── */}
       <section style={{ padding: 'clamp(var(--space-12), 8vw, var(--space-24)) 0' }}>
