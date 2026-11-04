@@ -185,18 +185,6 @@ export default function CandidateProfile() {
               <Lock size={12} /> Contact details shared after mutual interest acceptance
             </div>
           </Section>
-
-          {data.photos && data.photos.length > 0 && (
-            <Section title="📸 Photos">
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(80px, 1fr))', gap:'var(--space-2)' }}>
-                {data.photos.map((p) => (
-                  <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--color-border)' }}>
-                    <img src={photoUrl(p.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                  </div>
-                ))}
-              </div>
-            </Section>
-          )}
         </div>
       </div>
     </div>

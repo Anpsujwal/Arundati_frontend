@@ -297,7 +297,6 @@ export default function EditProfile() {
     { id: 'career', label: 'Education & Career', icon: Briefcase },
     { id: 'family', label: 'Family & Elders', icon: Users },
     { id: 'preferences', label: 'Preferences', icon: Heart },
-    { id: 'photos', label: 'Photos', icon: Camera },
     { id: 'danger', label: 'Account Settings', icon: AlertTriangle, isDanger: true },
   ];
 
@@ -1091,107 +1090,7 @@ export default function EditProfile() {
               </div>
             )}
 
-            {/* ─── TAB 7: PHOTOS ─── */}
-            {activeTab === 'photos' && (
-              <div>
-                <h2 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                  <Camera size={20} color="var(--color-gold)" /> Manage Profile Photos
-                </h2>
-                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-                  Upload clear, dignified photographs. You can upload up to 5 photos. The first photo is your primary display photo.
-                </p>
-
-                {/* Photo Upload Input Button */}
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label
-                    className="btn btn-outline"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 'var(--space-2)',
-                      cursor: photoUploading || photos.length >= 5 ? 'not-allowed' : 'pointer',
-                      opacity: photos.length >= 5 ? 0.6 : 1,
-                    }}
-                  >
-                    {photoUploading ? <Loader2 size={16} className="spinner" /> : <Upload size={16} />}
-                    {photoUploading ? 'Uploading…' : photos.length >= 5 ? 'Maximum Photos Reached (5)' : 'Upload New Photo'}
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      style={{ display: 'none' }}
-                      disabled={photoUploading || photos.length >= 5}
-                      onChange={handlePhotoUpload}
-                    />
-                  </label>
-                  <span style={{ marginLeft: 'var(--space-3)', fontSize: 'var(--text-xs)', color: 'var(--color-text-light)' }}>
-                    JPG, PNG or WebP up to 5MB.
-                  </span>
-                </div>
-
-                {/* Photo Gallery Grid */}
-                {photos.length === 0 ? (
-                  <div style={{
-                    padding: 'var(--space-10)', textAlign: 'center',
-                    border: '2px dashed var(--color-border)', borderRadius: 'var(--radius-lg)',
-                    background: 'var(--color-surface-2)',
-                  }}>
-                    <Camera size={40} color="var(--color-text-light)" style={{ margin: '0 auto var(--space-2)' }} />
-                    <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
-                      No photos uploaded yet. Add a profile photo to increase matchmaking visibility!
-                    </p>
-                  </div>
-                ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 'var(--space-4)' }}>
-                    {photos.map((p, idx) => (
-                      <div
-                        key={p.photo_id}
-                        style={{
-                          position: 'relative',
-                          borderRadius: 'var(--radius-md)',
-                          overflow: 'hidden',
-                          border: p.is_primary ? '2px solid var(--color-gold)' : '1px solid var(--color-border)',
-                          aspectRatio: '1',
-                          boxShadow: p.is_primary ? 'var(--shadow-gold)' : 'var(--shadow-sm)',
-                        }}
-                      >
-                        <img
-                          src={photoUrl(p.filename)}
-                          alt="Profile"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                        {p.is_primary ? (
-                          <div style={{
-                            position: 'absolute', top: 6, left: 6,
-                            background: 'var(--color-gold)', color: '#fff',
-                            fontSize: '10px', fontWeight: 700, padding: '2px 6px',
-                            borderRadius: 'var(--radius-sm)',
-                          }}>
-                            PRIMARY
-                          </div>
-                        ) : null}
-
-                        <button
-                          type="button"
-                          onClick={() => handleDeletePhoto(p.photo_id)}
-                          style={{
-                            position: 'absolute', top: 6, right: 6,
-                            background: 'rgba(198,40,40,0.85)', color: '#fff',
-                            border: 'none', borderRadius: 'var(--radius-sm)',
-                            width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            cursor: 'pointer',
-                          }}
-                          title="Delete photo"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ─── TAB 8: DANGER ZONE / ACCOUNT REMOVAL ─── */}
+            {/* ─── TAB: DANGER ZONE / ACCOUNT REMOVAL ─── */}
             {activeTab === 'danger' && (
               <div>
                 <h2 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', color: 'var(--color-error)' }}>
@@ -1208,7 +1107,7 @@ export default function EditProfile() {
                     Permanently Delete Your Account
                   </h3>
                   <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.5, margin: 0 }}>
-                    Once you delete your account, there is no going back. All of your personal details, photos,
+                    Once you delete your account, there is no going back. All of your personal details,
                     family data, elder references, Kundali horoscope records, matches, and uploaded verification documents
                     will be <strong>permanently removed from our database</strong>.
                   </p>
@@ -1228,7 +1127,7 @@ export default function EditProfile() {
             )}
 
             {/* Bottom Actions Bar (for editable tabs) */}
-            {activeTab !== 'danger' && activeTab !== 'photos' && (
+            {activeTab !== 'danger' && (
               <div style={{
                 marginTop: 'var(--space-8)',
                 paddingTop: 'var(--space-6)',

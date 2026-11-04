@@ -50,7 +50,7 @@ export default function PendingVerification() {
                 </div>
                 <div style={{ fontSize:'var(--text-xs)', color:'var(--color-text-light)', marginTop:'var(--space-1)' }}>
                   Submitted: {formatDate(p.created_at)}
-                  {' · '} Profile step: {p.registration_step}/7
+                  {' · '} Profile step: {Math.min(p.registration_step, 6)}/6
                   {p.has_gov_id && <span style={{ marginLeft:'var(--space-2)', color:'var(--color-success)', fontWeight:600 }}>✓ Gov ID uploaded</span>}
                 </div>
               </div>

@@ -10,7 +10,6 @@ import Step2Lineage from './Step2_Lineage';
 import Step3Birth from './Step3_Birth';
 import Step4Education from './Step4_Education';
 import Step5Family from './Step5_Family';
-import Step6Photos from './Step6_Photos';
 import Step7Preferences from './Step7_Preferences';
 import toast from 'react-hot-toast';
 
@@ -53,7 +52,7 @@ export default function Register() {
     setCurrentStep(2);
   };
 
-  const goNext = () => setCurrentStep((s) => Math.min(s + 1, 7));
+  const goNext = () => setCurrentStep((s) => Math.min(s + 1, 6));
   const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1));
 
   const handleComplete = () => {
@@ -95,7 +94,7 @@ export default function Register() {
             </div>
           </div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-            Step {currentStep} of 7
+            Step {currentStep} of 6
           </div>
         </div>
       </div>
@@ -114,8 +113,7 @@ export default function Register() {
           {currentStep === 3 && <Step3Birth onNext={goNext} onBack={goBack} />}
           {currentStep === 4 && <Step4Education onNext={goNext} onBack={goBack} />}
           {currentStep === 5 && <Step5Family onNext={goNext} onBack={goBack} />}
-          {currentStep === 6 && <Step6Photos onComplete={goNext} onBack={goBack} />}
-          {currentStep === 7 && <Step7Preferences onComplete={handleComplete} onBack={goBack} onGoToStep={(s) => setCurrentStep(s)} />}
+          {currentStep === 6 && <Step7Preferences onComplete={handleComplete} onBack={goBack} onGoToStep={(s) => setCurrentStep(s)} />}
         </div>
       </div>
     </div>

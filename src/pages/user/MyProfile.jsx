@@ -192,18 +192,6 @@ export default function MyProfile() {
             <InfoRow label="Elder Reference 2" value={family?.elder_ref_2_name} />
             <InfoRow label="Elder Reference 3" value={family?.elder_ref_3_name} />
           </div>
-          {photos && photos.length > 0 && (
-            <div>
-              <h2 className="section-title">Photos</h2>
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(80px, 1fr))', gap:'var(--space-2)' }}>
-                {photos.map((p) => (
-                  <div key={p.photo_id} style={{ aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--color-border)' }}>
-                    <img src={photoUrl(p.filename)} alt="Profile" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

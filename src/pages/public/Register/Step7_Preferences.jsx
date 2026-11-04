@@ -40,20 +40,20 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  // Helper to determine if all prior 6 steps are complete
+  // Helper to determine if all prior 5 steps are complete
   const allPriorComplete = validation ? validation.isComplete : false;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!allPriorComplete) {
-      toast.error('Please complete all 7 steps and mandatory fields before submitting your application.');
+      toast.error('Please complete all 6 steps and mandatory fields before submitting your application.');
       return;
     }
 
     setLoading(true);
     try {
-      // Finalize Step 6 and save Step 7 preferences
+      // Save Step 6 preferences and finalize
       await profileApi.step6();
       await profileApi.step7({
         pref_primary_sect: form.pref_primary_sect || null,
@@ -77,18 +77,17 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
     { num: 3, key: 'step3', label: 'Birth Details' },
     { num: 4, key: 'step4', label: 'Education & Profession' },
     { num: 5, key: 'step5', label: 'Family Information' },
-    { num: 6, key: 'step6', label: 'Profile Photos' },
-    { num: 7, key: 'step7', label: 'Matchmaking Preferences' },
+    { num: 6, key: 'step6', label: 'Matchmaking Preferences' },
   ];
 
   return (
     <div>
-      <h2 className="section-title">Step 7 — Matchmaking Preferences &amp; Submission</h2>
+      <h2 className="section-title">Step 6 — Matchmaking Preferences &amp; Submission</h2>
       <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>
-        Specify your partner preferences. All 7 steps and mandatory fields must be completed before you can submit your application.
+        Specify your partner preferences. All 6 steps and mandatory fields must be completed before you can submit your application.
       </p>
 
-      {/* ── 7-Step Validation Review Card ────────────────────────────────────── */}
+      {/* ── 6-Step Validation Review Card ────────────────────────────────────── */}
       <div style={{
         borderRadius: 'var(--radius-lg)',
         border: allPriorComplete ? '1px solid rgba(45, 106, 63, 0.35)' : '1px solid rgba(196, 147, 42, 0.4)',
@@ -112,7 +111,7 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
               margin: 0,
             }}>
               {allPriorComplete
-                ? 'All 7 Steps Verified & Ready for Submission'
+                ? 'All 6 Steps Verified & Ready for Submission'
                 : 'Application Completion Checklist'}
             </h3>
           </div>
@@ -125,22 +124,22 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
             color: allPriorComplete ? 'var(--color-leaf)' : '#B45309',
           }}>
             {validation
-              ? `${Object.values(validation.steps).filter((s) => s.complete).length} / 7 Steps Complete`
+              ? `${Object.values(validation.steps).filter((s) => s.complete).length} / 6 Steps Complete`
               : 'Checking...'}
           </span>
         </div>
 
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
           {allPriorComplete
-            ? 'All required fields across all 7 steps have been filled. You can now submit your application for verification.'
-            : 'You must fill all mandatory fields across all 7 steps. Click on any incomplete step below to quickly complete it.'}
+            ? 'All required fields across all 6 steps have been filled. You can now submit your application for verification.'
+            : 'You must fill all mandatory fields across all 6 steps. Click on any incomplete step below to quickly complete it.'}
         </p>
 
         {/* Step-by-step checklist breakdown */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
           {stepList.map((step) => {
             const stepInfo = validation?.steps?.[step.key];
-            const isStepComplete = step.num === 7 ? true : (stepInfo ? stepInfo.complete : false);
+            const isStepComplete = step.num === 6 ? true : (stepInfo ? stepInfo.complete : false);
             const missing = stepInfo?.missing || [];
 
             return (
@@ -274,7 +273,7 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             {!allPriorComplete && (
               <span style={{ fontSize: 'var(--text-xs)', color: '#B45309', fontWeight: 600 }}>
-                ⚠ Complete all 7 steps above to unlock submit
+                ⚠ Complete all 6 steps above to unlock submit
               </span>
             )}
             <button
@@ -282,7 +281,7 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
               type="submit"
               className="btn btn-primary btn-lg"
               disabled={loading || loadingProfile || !allPriorComplete}
-              title={!allPriorComplete ? 'Please complete all 7 steps before submitting' : 'Submit your complete application'}
+              title={!allPriorComplete ? 'Please complete all 6 steps before submitting' : 'Submit your complete application'}
               style={{
                 opacity: (!allPriorComplete || loading) ? 0.65 : 1,
                 cursor: !allPriorComplete ? 'not-allowed' : 'pointer',

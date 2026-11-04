@@ -197,7 +197,7 @@ export default function Step5Family({ onNext, onBack }) {
           <button type="button" className="btn btn-ghost btn-lg" onClick={onBack}>← Back</button>
           <button id="step5-next" type="submit" className="btn btn-primary btn-lg" disabled={loading}>
             {loading ? <span className="spinner spinner-sm" style={{ borderTopColor:'white' }} /> : null}
-            {loading ? 'Saving…' : 'Continue to Photos →'}
+            {loading ? 'Saving…' : 'Continue to Preferences →'}
           </button>
         </div>
       </form>

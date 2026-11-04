@@ -6,8 +6,7 @@ const STEPS = [
   { num: 3, label: 'Birth' },
   { num: 4, label: 'Education' },
   { num: 5, label: 'Family' },
-  { num: 6, label: 'Photos' },
-  { num: 7, label: 'Preferences' },
+  { num: 6, label: 'Preferences' },
 ];
 
 export default function WizardProgress({ currentStep, onStepClick }) {

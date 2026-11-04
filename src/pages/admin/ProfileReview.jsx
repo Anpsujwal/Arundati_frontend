@@ -231,32 +231,6 @@ export default function ProfileReview() {
         </div>
       )}
 
-      {/* ── Profile Photos ────────────────────────────────────────────────── */}
-      {data.photos?.length > 0 && (
-        <div className="card card-padded" style={{ marginBottom:'var(--space-6)' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'var(--space-2)', marginBottom:'var(--space-4)' }}>
-            <Image size={18} color="var(--color-primary)" />
-            <strong>Profile Photos ({data.photos.length})</strong>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(140px, 1fr))', gap:'var(--space-3)' }}>
-            {data.photos.map((p) => (
-              <div key={p.photo_id} style={{ position:'relative', aspectRatio:'1', borderRadius:'var(--radius-md)', overflow:'hidden', border:'2px solid var(--color-border)' }}>
-                <img
-                  src={photoUrl(p.filename)}
-                  alt="Profile"
-                  style={{ width:'100%', height:'100%', objectFit:'cover' }}
-                />
-                {p.is_primary === 1 && (
-                  <div style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(0,0,0,0.6)', color:'white', fontSize:'10px', textAlign:'center', padding:'3px' }}>
-                    Primary
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="grid-2-col-responsive">
         <div>
           <Section title="Personal Information">
