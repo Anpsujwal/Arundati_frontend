@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Edit3, Trash2, AlertTriangle, Loader2 } from 'lucide-react';
 import { profileApi } from '../../api/profile.api';
-import { getMyKundali, getMyChart } from '../../api/kundali.api';
+import { getMyKundali, getMyChart, retryMyKundali } from '../../api/kundali.api';
 import { useAuth } from '../../contexts/AuthContext';
 import { calcAge, formatHeight, formatDate, photoUrl, statusLabel, statusClass, getErrorMessage } from '../../utils/format.utils';
 import SouthIndianChart from '../../components/kundali/SouthIndianChart';
@@ -31,12 +31,39 @@ export default function MyProfile() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirmationText, setDeleteConfirmationText] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [retryingKundali, setRetryingKundali] = useState(false);
+
+  const fetchKundaliData = () => {
+    getMyKundali().then((k) => setKundali(k)).catch(() => {});
+    getMyChart().then((cd) => setChartData(cd)).catch(() => {});
+  };
 
   useEffect(() => {
     profileApi.me().then((r) => setData(r.data.data)).finally(() => setLoading(false));
-    getMyKundali().then((k) => setKundali(k)).catch(() => {});
-    getMyChart().then((cd) => setChartData(cd)).catch(() => {});
+    fetchKundaliData();
   }, []);
+
+  // When GENERATING, poll every 3 seconds until completed or failed
+  useEffect(() => {
+    if (kundali?.kundali_status !== 'GENERATING') return;
+    const timer = setInterval(() => {
+      fetchKundaliData();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [kundali?.kundali_status]);
+
+  const handleRetryKundali = async () => {
+    setRetryingKundali(true);
+    try {
+      await retryMyKundali();
+      setKundali((prev) => ({ ...prev, kundali_status: 'GENERATING' }));
+      toast.success('Kundali generation queued. Generating chart…');
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    } finally {
+      setRetryingKundali(false);
+    }
+  };
 
   const handleDeleteAccount = async () => {
     if (deleteConfirmationText.trim().toUpperCase() !== 'DELETE') {
@@ -295,9 +322,21 @@ export default function MyProfile() {
               </p>
             )}
             {kundali.kundali_status === 'FAILED' && (
-              <p style={{ color:'var(--color-error)', fontSize:'var(--text-sm)' }}>
-                ⚠ Kundali generation encountered an issue. Please contact the administrator.
-              </p>
+              <div style={{ padding:'var(--space-2) 0' }}>
+                <p style={{ color:'var(--color-error)', fontSize:'var(--text-sm)', marginBottom:'var(--space-3)' }}>
+                  ⚠ Kundali generation encountered an issue. Please click below to recalculate:
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={handleRetryKundali}
+                  disabled={retryingKundali}
+                  style={{ display:'inline-flex', alignItems:'center', gap:'var(--space-2)' }}
+                >
+                  {retryingKundali && <Loader2 size={14} className="spinner" />}
+                  {retryingKundali ? 'Retrying Calculation…' : '↻ Recalculate Kundali Now'}
+                </button>
+              </div>
             )}
             {!['GENERATED','GENERATING','INCOMPLETE_BIRTH_DATA','FAILED'].includes(kundali.kundali_status) && (
               <p style={{ color:'var(--color-text-muted)', fontSize:'var(--text-sm)' }}>

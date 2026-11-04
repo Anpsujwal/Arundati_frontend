@@ -9,6 +9,10 @@ export const getMyKundali = () =>
 export const getMyChart = () =>
   axios.get('/kundali/me/chart').then((r) => r.data.data ?? r.data);
 
+// Retry current user's failed Kundali generation
+export const retryMyKundali = () =>
+  axios.post('/kundali/me/retry').then((r) => r.data.data ?? r.data);
+
 // Get compatibility breakdown between current user and a candidate
 export const getCompatibility = (profileId) =>
   axios.get(`/matches/profile/${profileId}/compatibility`).then((r) => r.data);
