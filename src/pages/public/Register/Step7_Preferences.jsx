@@ -1,30 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Sliders, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
 import { profileApi } from '../../../api/profile.api';
-import { refApi } from '../../../api/auth.api';
 import { getErrorMessage } from '../../../utils/format.utils';
+import CommunitySelector from '../../../components/ui/CommunitySelector';
 import toast from 'react-hot-toast';
 
 export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
   const [form, setForm] = useState({
     pref_sub_sect: '',
+    pref_primary_sect: '',
+    pref_primary_sect_id: null,
+    pref_sub_sect_id: null,
     pref_location: '',
     pref_age_diff_min: '',
     pref_age_diff_max: '',
   });
-  const [subsects, setSubsects] = useState([]);
   const [validation, setValidation] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    refApi.subsects().then((r) => setSubsects(r.data.data)).catch(() => {});
-
     profileApi.me().then((r) => {
       const p = r.data.data?.profile;
       if (p) {
         setForm((prev) => ({
           ...prev,
+          pref_primary_sect: p.pref_primary_sect || '',
           pref_sub_sect: p.pref_sub_sect || '',
           pref_location: p.pref_location || '',
           pref_age_diff_min: p.pref_age_diff_min != null ? String(p.pref_age_diff_min) : '',
@@ -55,7 +56,9 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
       // Finalize Step 6 and save Step 7 preferences
       await profileApi.step6();
       await profileApi.step7({
-        ...form,
+        pref_primary_sect: form.pref_primary_sect || null,
+        pref_sub_sect: form.pref_sub_sect || null,
+        pref_location: form.pref_location || null,
         pref_age_diff_min: form.pref_age_diff_min !== '' ? parseInt(form.pref_age_diff_min, 10) : null,
         pref_age_diff_max: form.pref_age_diff_max !== '' ? parseInt(form.pref_age_diff_max, 10) : null,
       });
@@ -207,14 +210,29 @@ export default function Step7Preferences({ onComplete, onBack, onGoToStep }) {
 
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
-          {/* Preferred Sub-Sect */}
-          <div className="input-group">
-            <label className="input-label" htmlFor="pref_sub_sect">Preferred Sub-Sect</label>
-            <select id="pref_sub_sect" className="select" value={form.pref_sub_sect} onChange={(e) => set('pref_sub_sect', e.target.value)}>
-              <option value="">No preference (All compatible Brahmin sub-sects)</option>
-              {subsects.map((s) => <option key={s}>{s}</option>)}
-            </select>
-            <p className="input-hint">Leave as "No preference" to see all compatible matches.</p>
+          {/* Preferred Community — Two-Level Cascading */}
+          <div className="input-group col-span-2">
+            <label className="input-label">Preferred Community <span style={{ color: 'var(--color-text-light)', fontWeight: 400 }}>(optional)</span></label>
+            <p className="input-hint" style={{ marginBottom: 'var(--space-2)' }}>Leave unset to see all compatible matches regardless of community.</p>
+            <CommunitySelector
+              primarySect={form.pref_primary_sect}
+              subSect={form.pref_sub_sect}
+              primarySectId={form.pref_primary_sect_id}
+              subSectId={form.pref_sub_sect_id}
+              required={false}
+              onChangePrimary={(id, name) => setForm((f) => ({
+                ...f,
+                pref_primary_sect: name,
+                pref_primary_sect_id: id,
+                pref_sub_sect: '',
+                pref_sub_sect_id: null,
+              }))}
+              onChangeSubSect={(id, name) => setForm((f) => ({
+                ...f,
+                pref_sub_sect: name,
+                pref_sub_sect_id: id,
+              }))}
+            />
           </div>
 
           {/* Preferred Location */}

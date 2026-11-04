@@ -280,7 +280,8 @@ export default function ProfileReview() {
 
         <div>
           <Section title="Lineage">
-            <InfoRow label="Sub-Sect" value={data.sub_sect} />
+            <InfoRow label="Primary Sect" value={data.primary_sect} />
+            <InfoRow label="Sub-Sect" value={data.sub_sect || (data.community_custom_name ? `${data.community_custom_name} (Custom pending)` : null)} />
             <InfoRow label="Gotra" value={data.gotra} />
             <InfoRow label="Pravara" value={data.pravara} />
             <InfoRow label="Maternal Gotra" value={data.maternal_gotra} />

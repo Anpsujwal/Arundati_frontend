@@ -209,6 +209,7 @@ function ProfileCard({ match, onInterestSent, onGraded, onAlreadyDealt }) {
           </div>
 
           <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+            {match.primary_sect && <span className="badge badge-primary">{match.primary_sect}</span>}
             <span className="badge badge-gold">{match.sub_sect || 'Brahmin'}</span>
             {match.marital_status && match.marital_status !== 'Never Married' &&
               <span className="badge badge-pending">{match.marital_status}</span>}

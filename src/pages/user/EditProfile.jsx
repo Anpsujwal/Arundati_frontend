@@ -25,6 +25,7 @@ import { refApi } from '../../api/auth.api';
 import { useAuth } from '../../contexts/AuthContext';
 import { photoUrl, getErrorMessage } from '../../utils/format.utils';
 import WeddingDivider from '../../components/wedding-theme/WeddingDivider';
+import CommunitySelector from '../../components/ui/CommunitySelector';
 import toast from 'react-hot-toast';
 
 export default function EditProfile() {
@@ -56,7 +57,11 @@ export default function EditProfile() {
     profile_managed_by: 'Self',
 
     // Step 2 - Lineage
+    primary_sect: '',
+    primary_sect_id: null,
     sub_sect: '',
+    sub_sect_id: null,
+    community_custom: '',
     gotra: '',
     pravara: '',
     maternal_gotra: '',
@@ -100,7 +105,10 @@ export default function EditProfile() {
     elder_ref_3_occupation: '',
 
     // Step 7 - Preferences
+    pref_primary_sect: '',
+    pref_primary_sect_id: null,
     pref_sub_sect: '',
+    pref_sub_sect_id: null,
     pref_location: '',
     pref_age_diff_min: '',
     pref_age_diff_max: '',
@@ -131,7 +139,11 @@ export default function EditProfile() {
             marital_status: profile.marital_status || 'Never Married',
             profile_managed_by: u?.profile_managed_by || 'Self',
 
+            primary_sect: profile.primary_sect || '',
+            primary_sect_id: null,
             sub_sect: profile.sub_sect || '',
+            sub_sect_id: null,
+            community_custom: profile.community_custom_name || '',
             gotra: profile.gotra || '',
             pravara: profile.pravara || '',
             maternal_gotra: profile.maternal_gotra || '',
@@ -171,7 +183,10 @@ export default function EditProfile() {
             elder_ref_3_address: family?.elder_ref_3_address || '',
             elder_ref_3_occupation: family?.elder_ref_3_occupation || '',
 
+            pref_primary_sect: profile.pref_primary_sect || '',
+            pref_primary_sect_id: null,
             pref_sub_sect: profile.pref_sub_sect || '',
+            pref_sub_sect_id: null,
             pref_location: profile.pref_location || '',
             pref_age_diff_min: profile.pref_age_diff_min != null ? String(profile.pref_age_diff_min) : '',
             pref_age_diff_max: profile.pref_age_diff_max != null ? String(profile.pref_age_diff_max) : '',
@@ -474,18 +489,37 @@ export default function EditProfile() {
                 </p>
 
                 <div className="form-grid">
-                  <div className="input-group">
-                    <label className="input-label">Sub-Sect</label>
-                    <select
-                      className="select"
-                      value={formData.sub_sect}
-                      onChange={(e) => handleChange('sub_sect', e.target.value)}
-                    >
-                      <option value="">Select Sub-Sect</option>
-                      {subsects.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
+                  {/* Community — Two-Level Cascading */}
+                  <div className="input-group col-span-2">
+                    <CommunitySelector
+                      primarySect={formData.primary_sect}
+                      subSect={formData.sub_sect}
+                      primarySectId={formData.primary_sect_id}
+                      subSectId={formData.sub_sect_id}
+                      required={false}
+                      customValue={formData.community_custom}
+                      onChangePrimary={(id, name, slug) => {
+                        setFormData((f) => ({
+                          ...f,
+                          primary_sect: name,
+                          primary_sect_id: id,
+                          primary_sect_slug: slug,
+                          sub_sect: '',
+                          sub_sect_id: null,
+                          community_custom: '',
+                        }));
+                      }}
+                      onChangeSubSect={(id, name, slug) => {
+                        setFormData((f) => ({
+                          ...f,
+                          sub_sect: name,
+                          sub_sect_id: id,
+                          sub_sect_slug: slug,
+                          community_custom: '',
+                        }));
+                      }}
+                      onCustomChange={(v) => handleChange('community_custom', v)}
+                    />
                   </div>
 
                   <div className="input-group">
@@ -994,18 +1028,31 @@ export default function EditProfile() {
                 </p>
 
                 <div className="form-grid">
-                  <div className="input-group">
-                    <label className="input-label">Preferred Sub-Sect</label>
-                    <select
-                      className="select"
-                      value={formData.pref_sub_sect}
-                      onChange={(e) => handleChange('pref_sub_sect', e.target.value)}
-                    >
-                      <option value="">Any Sub-Sect / Open</option>
-                      {subsects.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
+                  {/* Preferred Community — Two-Level Cascading */}
+                  <div className="input-group col-span-2">
+                    <label className="input-label">Preferred Community <span style={{ color: 'var(--color-text-light)', fontWeight: 400 }}>(optional)</span></label>
+                    <p className="input-hint" style={{ marginBottom: 'var(--space-2)' }}>
+                      Leave unset to see all compatible matches regardless of community.
+                    </p>
+                    <CommunitySelector
+                      primarySect={formData.pref_primary_sect}
+                      subSect={formData.pref_sub_sect}
+                      primarySectId={formData.pref_primary_sect_id}
+                      subSectId={formData.pref_sub_sect_id}
+                      required={false}
+                      onChangePrimary={(id, name) => setFormData((f) => ({
+                        ...f,
+                        pref_primary_sect: name,
+                        pref_primary_sect_id: id,
+                        pref_sub_sect: '',
+                        pref_sub_sect_id: null,
+                      }))}
+                      onChangeSubSect={(id, name) => setFormData((f) => ({
+                        ...f,
+                        pref_sub_sect: name,
+                        pref_sub_sect_id: id,
+                      }))}
+                    />
                   </div>
 
                   <div className="input-group">

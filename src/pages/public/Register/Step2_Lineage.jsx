@@ -2,29 +2,38 @@ import { useState, useEffect } from 'react';
 import { profileApi } from '../../../api/profile.api';
 import { refApi } from '../../../api/auth.api';
 import { getErrorMessage } from '../../../utils/format.utils';
+import CommunitySelector from '../../../components/ui/CommunitySelector';
 import toast from 'react-hot-toast';
 
 export default function Step2Lineage({ onNext, onBack }) {
   const [form, setForm] = useState({
-    sub_sect: '', gotra: '', pravara: '', maternal_gotra: '',
+    // Community fields (two-level)
+    primary_sect: '',
+    primary_sect_id: null,
+    primary_sect_slug: '',
+    sub_sect: '',
+    sub_sect_id: null,
+    sub_sect_slug: '',
+    community_custom: '',
+    // Lineage fields
+    gotra: '', pravara: '', maternal_gotra: '',
     maternal_inti_peru: '', veda: '', shakha: '', native_place: '',
-    // sutra removed — field no longer collected
   });
   const [gotras, setGotras] = useState([]);
-  const [subsects, setSubsects] = useState([]);
   const [gotraSearch, setGotraSearch] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     refApi.gotras().then((r) => setGotras(r.data.data)).catch(() => {});
-    refApi.subsects().then((r) => setSubsects(r.data.data)).catch(() => {});
     profileApi.me().then((r) => {
       const p = r.data.data?.profile;
       if (p) {
         setForm((prev) => ({
           ...prev,
+          primary_sect: p.primary_sect || '',
           sub_sect: p.sub_sect || '',
+          community_custom: p.community_custom_name || '',
           gotra: p.gotra || '',
           pravara: p.pravara || '',
           maternal_gotra: p.maternal_gotra || '',
@@ -48,7 +57,19 @@ export default function Step2Lineage({ onNext, onBack }) {
 
   const validate = () => {
     const e = {};
-    if (!form.sub_sect) e.sub_sect = 'Sub-Sect is required.';
+    const isOtherPrimary = form.primary_sect === 'Other / Not Listed';
+    const isOtherSubSect = form.sub_sect === 'Other / Not Listed';
+
+    if (!form.primary_sect) {
+      e.community = 'Primary Sect is required.';
+    } else if (isOtherPrimary && !form.community_custom.trim()) {
+      e.community = 'Please describe your community.';
+    } else if (!isOtherPrimary && !form.sub_sect) {
+      e.community = 'Sub-Sect / Local Lineage is required.';
+    } else if (isOtherSubSect && !form.community_custom.trim()) {
+      e.community = 'Please describe your Sub-Sect / Local Lineage.';
+    }
+
     if (!form.gotra) e.gotra = 'Gotra is required — it is essential for Gotra compatibility.';
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -62,7 +83,22 @@ export default function Step2Lineage({ onNext, onBack }) {
     }
     setLoading(true);
     try {
-      await profileApi.step2(form);
+      const isOtherPrimary = form.primary_sect === 'Other / Not Listed';
+      const isOtherSubSect = form.sub_sect === 'Other / Not Listed';
+
+      await profileApi.step2({
+        primary_sect: isOtherPrimary ? null : (form.primary_sect || null),
+        sub_sect: isOtherSubSect ? null : (form.sub_sect || null),
+        community_custom_name: (isOtherPrimary || isOtherSubSect) ? form.community_custom : null,
+        community_custom_pending: isOtherPrimary || isOtherSubSect,
+        gotra: form.gotra,
+        pravara: form.pravara,
+        maternal_gotra: form.maternal_gotra,
+        maternal_inti_peru: form.maternal_inti_peru,
+        veda: form.veda,
+        shakha: form.shakha,
+        native_place: form.native_place,
+      });
       toast.success('Lineage information saved!');
       onNext();
     } catch (err) {
@@ -79,14 +115,42 @@ export default function Step2Lineage({ onNext, onBack }) {
 
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
-          {/* Sub-Sect */}
-          <div className="input-group">
-            <label className="input-label" htmlFor="sub_sect">Sub-Sect <span className="required">*</span></label>
-            <select id="sub_sect" className={`select ${errors.sub_sect ? 'error' : ''}`} value={form.sub_sect} onChange={(e) => set('sub_sect', e.target.value)}>
-              <option value="">Select sub-sect</option>
-              {subsects.map((s) => <option key={s}>{s}</option>)}
-            </select>
-            {errors.sub_sect && <p className="input-error-msg">{errors.sub_sect}</p>}
+          {/* ── Community Selection — Two-Level Cascading ── */}
+          <div className="input-group col-span-2">
+            <CommunitySelector
+              primarySect={form.primary_sect}
+              subSect={form.sub_sect}
+              primarySectId={form.primary_sect_id}
+              subSectId={form.sub_sect_id}
+              required={true}
+              error={errors.community}
+              onChangePrimary={(id, name, slug) => {
+                setForm((f) => ({
+                  ...f,
+                  primary_sect: name,
+                  primary_sect_id: id,
+                  primary_sect_slug: slug,
+                  // Clear sub-sect when primary changes
+                  sub_sect: '',
+                  sub_sect_id: null,
+                  sub_sect_slug: '',
+                  community_custom: '',
+                }));
+                if (errors.community) setErrors((e) => ({ ...e, community: null }));
+              }}
+              onChangeSubSect={(id, name, slug) => {
+                setForm((f) => ({
+                  ...f,
+                  sub_sect: name,
+                  sub_sect_id: id,
+                  sub_sect_slug: slug,
+                  community_custom: '',
+                }));
+                if (errors.community) setErrors((e) => ({ ...e, community: null }));
+              }}
+              customValue={form.community_custom}
+              onCustomChange={(v) => set('community_custom', v)}
+            />
           </div>
 
           {/* Gotra — searchable dropdown */}

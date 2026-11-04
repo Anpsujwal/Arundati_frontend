@@ -146,7 +146,8 @@ export default function MyProfile() {
         <div>
           <div style={{ marginBottom:'var(--space-8)' }}>
             <h2 className="section-title">Lineage</h2>
-            <InfoRow label="Sub-Sect"    value={profile?.sub_sect} />
+            <InfoRow label="Primary Sect" value={profile?.primary_sect} />
+            <InfoRow label="Sub-Sect"    value={profile?.sub_sect || profile?.community_custom_name} />
             <InfoRow label="Gotra"       value={profile?.gotra} />
             <InfoRow label="Pravara"     value={profile?.pravara} />
             <InfoRow label="Veda"        value={profile?.veda} />
@@ -155,7 +156,8 @@ export default function MyProfile() {
           </div>
           <div>
             <h2 className="section-title">Preferences</h2>
-            <InfoRow label="Preferred Sub-Sect" value={profile?.pref_sub_sect} />
+            <InfoRow label="Preferred Primary Sect" value={profile?.pref_primary_sect} />
+            <InfoRow label="Preferred Sub-Sect" value={profile?.pref_sub_sect || profile?.pref_community_custom_name} />
             <InfoRow label="Preferred Location" value={profile?.pref_location} />
             <InfoRow
               label="Preferred Age Difference"

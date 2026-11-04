@@ -114,7 +114,8 @@ export default function CandidateProfile() {
 
             <div style={{ display:'flex', gap:'var(--space-2)', flexWrap:'wrap', marginBottom:'var(--space-5)' }}>
               {data.gotra    && <span className="badge badge-gold">Gotra: {data.gotra}</span>}
-              {data.sub_sect && <span className="badge badge-primary">{data.sub_sect}</span>}
+              {data.primary_sect && <span className="badge badge-primary">{data.primary_sect}</span>}
+              {data.sub_sect && <span className="badge badge-gold">{data.sub_sect}</span>}
               {data.dietary_habit && <span className="badge" style={{ background:'var(--color-success-bg)', color:'var(--color-success)' }}>🌿 {data.dietary_habit}</span>}
             </div>
 
@@ -151,6 +152,7 @@ export default function CandidateProfile() {
         {/* Left column */}
         <div>
           <Section title="🔱 Lineage & Heritage">
+            <InfoRow label="Primary Sect"      value={data.primary_sect} />
             <InfoRow label="Sub-Sect"          value={data.sub_sect} />
             <InfoRow label="Gotra"             value={data.gotra} />
             <InfoRow label="Pravara"           value={data.pravara} />
